@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact | The Analytical Ledger</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Georgia', 'Times New Roman', 'Palatino', serif;
+            line-height: 1.6;
+            color: #1a1a1a;
+            background-color: #ffffff;
+        }
+        
+        nav {
+            background-color: #f5f5f5;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+        
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px;
+        }
+        
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background-color: #1a1a1a;
+            transition: 0.3s;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+        
+        .nav-links a {
+            color: #1a1a1a;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        
+        .nav-links a:hover {
+            color: #666;
+        }
+        
+        header {
+            background-color: #f5f5f5;
+            border-bottom: 2px solid #1a1a1a;
+            padding: 50px 20px 30px;
+            margin-bottom: 50px;
+        }
+        
+        .header-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+        
+        main {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px 60px;
+        }
+        
+        .intro {
+            font-size: 1.05em;
+            line-height: 1.8;
+            color: #333;
+            margin-bottom: 40px;
+        }
+        
+        .contact-methods {
+            display: grid;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .contact-method {
+            padding: 30px;
+            border: 2px solid #1a1a1a;
+            background-color: #ffffff;
+        }
+        
+        .contact-method h2 {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .contact-method p {
+            font-size: 1.05em;
+            line-height: 1.7;
+            color: #333;
+            margin-bottom: 15px;
+        }
+        
+        .contact-method a {
+            color: #1a1a1a;
+            text-decoration: underline;
+            font-weight: 500;
+        }
+        
+        .contact-method a:hover {
+            color: #666;
+        }
+        
+        .placeholder {
+            padding: 20px;
+            background-color: #f5f5f5;
+            border-left: 4px solid #1a1a1a;
+            margin-top: 15px;
+        }
+        
+        .placeholder p {
+            font-size: 0.95em;
+            color: #666;
+            font-style: italic;
+        }
+        
+        footer {
+            margin-top: 60px;
+            padding: 30px 20px;
+            border-top: 2px solid #1a1a1a;
+            text-align: center;
+            color: #666;
+            font-size: 0.9em;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+            
+            .nav-links {
+                position: fixed;
+                right: -100%;
+                top: 53px;
+                flex-direction: column;
+                background-color: #f5f5f5;
+                width: 200px;
+                padding: 20px;
+                box-shadow: -2px 2px 10px rgba(0,0,0,0.1);
+                transition: 0.3s;
+                gap: 20px;
+            }
+            
+            .nav-links.active {
+                right: 0;
+            }
+            
+            header {
+                padding: 30px 20px 20px;
+            }
+            
+            .contact-method {
+                padding: 20px;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2em;
+            }
+            
+            .contact-method h2 {
+                font-size: 1.3em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="hamburger" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="archive.html">Archive</a></li>
+            <li><a href="tags.html">Tags</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
+    
+    <header>
+        <div class="header-content">
+            <h1>Contact</h1>
+        </div>
+    </header>
+    
+    <main>
+        <p class="intro">
+            I'm always interested in connecting with academics, business professionals, researchers, and students exploring AI, data ethics, and business analytics. Whether you have questions, collaboration ideas, or want to discuss these topics, feel free to reach out.
+        </p>
+        
+        <div class="contact-methods">
+            <div class="contact-method">
+                <h2>Email</h2>
+                <p>The best way to reach me for professional inquiries, collaboration opportunities, or detailed questions.</p>
+                <div class="placeholder">
+                    <p>Add your email address here: <strong>your.email@example.com</strong></p>
+                </div>
+            </div>
+            
+            <div class="contact-method">
+                <h2>LinkedIn</h2>
+                <p>Connect with me on LinkedIn for professional networking and to stay updated on my latest insights.</p>
+                <div class="placeholder">
+                    <p>Add your LinkedIn profile URL here: <strong>linkedin.com/in/yourprofile</strong></p>
+                </div>
+            </div>
+            
+            <div class="contact-method">
+                <h2>Social Media</h2>
+                <p>Follow along for quick thoughts, article updates, and industry commentary.</p>
+                <div class="placeholder">
+                    <p>Add your preferred social media links here (Twitter/X, Medium, etc.)</p>
+                </div>
+            </div>
+        </div>
+        
+        <div style="padding: 30px; background-color: #f5f5f5; margin-top: 20px;">
+            <h2 style="font-size: 1.3em; margin-bottom: 15px;">Response Time</h2>
+            <p style="font-size: 1.05em; line-height: 1.7; color: #333;">
+                I typically respond to emails within 48 hours during business days. For urgent matters, please indicate this in your subject line.
+            </p>
+        </div>
+    </main>
+    
+    <footer>
+        <p>&copy; 2026 The Analytical Ledger. All rights reserved.</p>
+    </footer>
+    
+    <script>
+        function toggleMenu() {
+            const navLinks = document.getElementById('navLinks');
+            navLinks.classList.toggle('active');
+        }
+        
+        document.addEventListener('click', function(event) {
+            const nav = document.querySelector('nav');
+            const navLinks = document.getElementById('navLinks');
+            if (!nav.contains(event.target)) {
+                navLinks.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>

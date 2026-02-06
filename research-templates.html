@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Research Organization Templates for Students and Analysts | The Analytical Ledger</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Georgia', 'Times New Roman', 'Palatino', serif;
+            line-height: 1.6;
+            color: #1a1a1a;
+            background-color: #ffffff;
+        }
+        
+        nav {
+            background-color: #f5f5f5;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+        
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px;
+        }
+        
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background-color: #1a1a1a;
+            transition: 0.3s;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+        
+        .nav-links a {
+            color: #1a1a1a;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        
+        .nav-links a:hover {
+            color: #666;
+        }
+        
+        header {
+            background-color: #f5f5f5;
+            border-bottom: 2px solid #1a1a1a;
+            padding: 50px 20px 30px;
+            margin-bottom: 50px;
+        }
+        
+        .header-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 15px;
+        }
+        
+        .article-meta {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            align-items: center;
+            color: #666;
+            font-size: 0.95em;
+            margin-bottom: 10px;
+        }
+        
+        .article-author {
+            color: #1a1a1a;
+            font-weight: 600;
+        }
+        
+        .article-author::before {
+            content: "By ";
+            font-weight: 400;
+            color: #666;
+        }
+        
+        .article-date {
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .tags {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .tag {
+            display: inline-block;
+            padding: 5px 12px;
+            background-color: #1a1a1a;
+            color: #ffffff;
+            font-size: 0.85em;
+            text-decoration: none;
+            transition: background-color 0.2s;
+        }
+        
+        .tag:hover {
+            background-color: #4a4a4a;
+        }
+        
+        main {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px 60px;
+        }
+        
+        article {
+            font-size: 1.1em;
+            line-height: 1.8;
+        }
+        
+        article p {
+            margin-bottom: 25px;
+            color: #333;
+        }
+        
+        article h2 {
+            font-size: 1.8em;
+            font-weight: 600;
+            margin-top: 50px;
+            margin-bottom: 20px;
+            color: #1a1a1a;
+        }
+        
+        article h3 {
+            font-size: 1.4em;
+            font-weight: 600;
+            margin-top: 35px;
+            margin-bottom: 15px;
+            color: #1a1a1a;
+        }
+        
+        article ul, article ol {
+            margin-bottom: 25px;
+            padding-left: 30px;
+        }
+        
+        article li {
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        article a {
+            color: #1a1a1a;
+            text-decoration: underline;
+        }
+        
+        article a:hover {
+            color: #666;
+        }
+        
+        .callout {
+            padding: 25px;
+            background-color: #f5f5f5;
+            border-left: 4px solid #1a1a1a;
+            margin: 35px 0;
+        }
+        
+        .callout p {
+            margin-bottom: 0;
+            font-size: 1em;
+        }
+        
+        .callout h4 {
+            font-size: 1.2em;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+        
+        blockquote {
+            padding: 25px;
+            background-color: #f5f5f5;
+            border-left: 4px solid #1a1a1a;
+            margin: 35px 0;
+            font-style: italic;
+            color: #4a4a4a;
+        }
+        
+        blockquote p {
+            margin-bottom: 10px;
+            font-size: 1.05em;
+        }
+        
+        blockquote cite {
+            display: block;
+            margin-top: 10px;
+            font-size: 0.9em;
+            font-style: normal;
+            color: #666;
+        }
+        
+        code {
+            background-color: #f5f5f5;
+            padding: 2px 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+        
+        pre {
+            background-color: #f5f5f5;
+            padding: 20px;
+            overflow-x: auto;
+            margin: 25px 0;
+            border-left: 4px solid #1a1a1a;
+        }
+        
+        pre code {
+            padding: 0;
+            background: none;
+        }
+        
+        .back-link {
+            display: inline-block;
+            margin-bottom: 30px;
+            color: #1a1a1a;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        
+        .back-link:hover {
+            color: #666;
+        }
+        
+        .back-link::before {
+            content: "← ";
+        }
+        
+        .template-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin: 35px 0;
+        }
+        
+        .template-card {
+            border: 2px solid #1a1a1a;
+            padding: 20px;
+            background-color: #ffffff;
+            transition: transform 0.2s;
+        }
+        
+        .template-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .template-card h4 {
+            font-size: 1.3em;
+            margin-bottom: 15px;
+            color: #1a1a1a;
+        }
+        
+        .template-card p {
+            font-size: 0.95em;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .template-card strong {
+            color: #1a1a1a;
+        }
+        
+        .download-btn {
+            display: inline-block;
+            background-color: #1a1a1a;
+            color: #ffffff;
+            padding: 10px 20px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background-color 0.2s;
+            font-size: 0.95em;
+            margin-top: 10px;
+        }
+        
+        .download-btn:hover {
+            background-color: #4a4a4a;
+        }
+        
+        .share-section {
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 2px solid #e0e0e0;
+        }
+        
+        .share-section h3 {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        
+        .share-buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .share-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background-color: #1a1a1a;
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 0.95em;
+            font-weight: 500;
+            transition: background-color 0.2s;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .share-button:hover {
+            background-color: #4a4a4a;
+        }
+        
+        .share-button.linkedin {
+            background-color: #0077B5;
+        }
+        
+        .share-button.linkedin:hover {
+            background-color: #006399;
+        }
+        
+        .share-button.twitter {
+            background-color: #1DA1F2;
+        }
+        
+        .share-button.twitter:hover {
+            background-color: #1a8cd8;
+        }
+        
+        .share-button.email {
+            background-color: #666;
+        }
+        
+        .share-button.email:hover {
+            background-color: #4a4a4a;
+        }
+        
+        footer {
+            margin-top: 60px;
+            padding: 30px 20px;
+            border-top: 2px solid #1a1a1a;
+            text-align: center;
+            color: #666;
+            font-size: 0.9em;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+            
+            .nav-links {
+                position: fixed;
+                right: -100%;
+                top: 53px;
+                flex-direction: column;
+                background-color: #f5f5f5;
+                width: 200px;
+                padding: 20px;
+                box-shadow: -2px 2px 10px rgba(0,0,0,0.1);
+                transition: 0.3s;
+                gap: 20px;
+            }
+            
+            .nav-links.active {
+                right: 0;
+            }
+            
+            header {
+                padding: 30px 20px 20px;
+            }
+            
+            article {
+                font-size: 1.05em;
+            }
+            
+            .template-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .share-buttons {
+                flex-direction: column;
+            }
+            
+            .share-button {
+                justify-content: center;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2em;
+            }
+            
+            article h2 {
+                font-size: 1.5em;
+            }
+            
+            article h3 {
+                font-size: 1.3em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="hamburger" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="archive.html">Archive</a></li>
+            <li><a href="tags.html">Tags</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
+    
+    <header>
+        <div class="header-content">
+            <h1>Research Organization Templates for Students and Analysts</h1>
+            <div class="article-meta">
+                <span class="article-author">Coty</span>
+                <span class="article-date">February 6, 2026</span>
+            </div>
+            <div class="tags">
+                <a href="#" class="tag">Research</a>
+                <a href="#" class="tag">Data Analytics</a>
+                <a href="#" class="tag">STEM</a>
+                <a href="#" class="tag">Templates</a>
+            </div>
+        </div>
+    </header>
+    
+    <main>
+        <a href="index.html" class="back-link">Back to all articles</a>
+        
+        <article>
+            <div class="callout">
+                <p>
+                    <strong>Welcome to The Analytical Ledger.</strong> My name is Coty, and I'm an Accounting and Business Data Analytics student at the University of Washington, Tacoma. This blog exists at the intersection of academic rigor and practical application—a space where data science meets real-world decision-making, where theoretical frameworks inform business strategy, and where students and professionals alike can find tools to do better research.
+                </p>
+            </div>
+            
+            <h2>The Problem We Don't Talk About</h2>
+            
+            <p>
+                Here's something they don't teach you in most undergraduate programs: how to actually organize research when you're juggling ten sources at once.
+            </p>
+            
+            <p>
+                You know the scenario. You're three weeks into a literature review for your capstone. You've read fifteen papers. You <em>know</em> you saw a statistic about digital twin ROI somewhere, but which paper was it? You start opening PDFs, pressing Ctrl+F, scrolling frantically. Twenty minutes later, you've re-read three abstracts and still haven't found what you need.
+            </p>
+            
+            <p>
+                Or maybe you're a professional preparing a white paper. You've been collecting research for a month—academic papers, industry reports, datasets from data.gov. It's all saved in a folder called "Research_Final_FINAL_v3" on your desktop. When your director asks for a citation, you're performing digital archaeology.
+            </p>
+            
+            <p>
+                This isn't a knowledge problem. It's a systems problem.
+            </p>
+            
+            <h2>The High School Flashback</h2>
+            
+            <p>
+                I still remember my high school Research & Rhetoric class. Before we could write our essays, we had to keep note cards. One card per source. Quote on the front, page number and citation on the back. At the time, it felt like busy work—another hoop to jump through.
+            </p>
+            
+            <p>
+                Now I understand what my teacher knew: when you're synthesizing multiple sources, your brain needs an external system. You can't hold it all in working memory. The note cards weren't about the cards themselves—they were about building a retrieval system.
+            </p>
+            
+            <p>
+                Fast forward to my junior year at UW Tacoma. I was talking with my professor after class about preliminary research for a project, and she emphasized all the prework and organization that has to happen before you even start writing. That conversation crystallized something for me: I needed digital note cards. Not literal cards, but a structured template I could fill out consistently for every source I encountered.
+            </p>
+            
+            <h2>Why Templates Matter for STEM and Business Analytics</h2>
+            
+            <p>
+                If you're doing bachelor's or graduate work in any research-oriented or STEM field, you're constantly switching between two types of sources:
+            </p>
+            
+            <p>
+                <strong>Academic Articles:</strong> Research papers, conference proceedings, literature you need to cite. You need to capture the methodology, key findings, and quotable passages with page numbers.
+            </p>
+            
+            <p>
+                <strong>Data Sets:</strong> Kaggle datasets, government data, APIs, CSV files. You need to understand the structure, variables, collection methodology, and what analyses you could run.
+            </p>
+            
+            <p>
+                Most organizational systems are built for one or the other. Reference managers like Zotero excel at academic citations but aren't built for data exploration. Data catalogs help you find datasets but don't support literature review workflows.
+            </p>
+            
+            <p>
+                What if you had one system that handled both?
+            </p>
+            
+            <h2>Introducing Two Templates</h2>
+            
+            <p>
+                I've created two research organization templates that work for both academic articles and data sets. Think of them as structured note-taking frameworks—digital versions of those high school note cards, but smarter.
+            </p>
+            
+            <div class="template-grid">
+                <div class="template-card">
+                    <h4>📋 Deep Analysis Template</h4>
+                    <p><strong>Time investment:</strong> 30 minutes</p>
+                    <p><strong>Use for:</strong> Sources you'll cite heavily, foundational papers in your field, datasets you'll actually analyze, methodology you need to understand deeply.</p>
+                    <p><strong>Captures:</strong> Full context, methodology, key insights, citations with page numbers, data structure details, connection to your work.</p>
+                    <a href="../templates/Analytical_Ledger_Deep_Analysis_Template.docx" class="download-btn" download>Download Deep Analysis Template</a>
+                </div>
+
+                <div class="template-card">
+                    <h4>⚡ Quick-Scan Template</h4>
+                    <p><strong>Time investment:</strong> 10 minutes</p>
+                    <p><strong>Use for:</strong> Keeping current with your field, tangential sources, triage decisions, awareness reading.</p>
+                    <p><strong>Captures:</strong> Three-sentence summary, one quotable finding, key limitation, whether it's worth a deeper read later.</p>
+                    <a href="../templates/Analytical_Ledger_Quick_Scan_Template.docx" class="download-btn" download>Download Quick-Scan Template</a>
+                </div>
+            </div>
+            
+            <h2>How They Work</h2>
+            
+            <p>
+                Both templates are dual-purpose. At the top, you check a box: Article or Data Set. Throughout the template, prompts adjust contextually:
+            </p>
+            
+            <blockquote>
+                <p>"Article: What's the research question? | Data: What problem does this dataset help solve?"</p>
+            </blockquote>
+            
+            <p>
+                This means one consistent workflow regardless of source type. You're building the same habit, using the same organizational structure, developing the same muscle memory.
+            </p>
+            
+            <div class="callout">
+                <h4>The system in practice:</h4>
+                <ol>
+                    <li>Open the article or dataset with the appropriate template</li>
+                    <li>Fill out the template as you read/explore</li>
+                    <li>Save with a clear naming convention: <code>Author_Year_Topic.docx</code></li>
+                    <li>Store in Notion, Zotero, or a tagged folder system</li>
+                    <li>When writing, search by keyword to find relevant notes</li>
+                </ol>
+            </div>
+            
+            <h2>Real-World Use Cases</h2>
+            
+            <h3>For Students: Literature Reviews</h3>
+            
+            <p>
+                You're writing your capstone on supply chain optimization. You've read 20 papers over two months. Without a system, you're re-reading PDFs at midnight before your deadline. With templates stored in Notion and tagged by topic, you search "inventory reduction," find three completed templates, and pull the citations directly into your draft.
+            </p>
+            
+            <h3>For Professionals: Evidence-Based Presentations</h3>
+            
+            <p>
+                You're presenting to executives about adopting new analytics tools. They'll ask for evidence. You've been reading papers on ROI using the Quick-Scan template for the past month. When preparing your deck, you search "ROI" in your templates folder, find solid statistics with proper citations, and instantly establish credibility.
+            </p>
+            
+            <h3>For Researchers: Cross-Source Synthesis</h3>
+            
+            <p>
+                You're investigating digital twin technology. You need to read engineering papers on sensor networks, computer science papers on real-time data integration, and explore manufacturing datasets. Same template structure for all sources means when you write your article, all your research is organized the same way.
+            </p>
+            
+            <h2>Make It Your Own</h2>
+            
+            <p>
+                Here's the important part: <strong>these templates are starting points, not commandments.</strong>
+            </p>
+            
+            <p>
+                Some people will use them exactly as-is. Others will modify them—add fields, remove sections, adjust the prompts. Some will integrate them with Zotero. Others will paste them into Notion databases. Some will keep them as Word docs. Others will convert to markdown.
+            </p>
+            
+            <p>
+                The point isn't my specific format. The point is having <em>a</em> system. The templates just externalize what expert researchers do mentally: identify core arguments, extract citable evidence, note methodology strengths and limitations, connect to other readings.
+            </p>
+            
+            <p>
+                Take what's useful. Leave what's not. Adapt ruthlessly.
+            </p>
+            
+            <h2>Why This Matters</h2>
+            
+            <p>
+                Research without organization is just reading. You might learn something in the moment, but three weeks later when you need to cite it, you've lost it.
+            </p>
+            
+            <p>
+                The templates are a forcing function. They make you slow down enough to actually think about what you're reading. To identify what matters. To capture it in a searchable, reusable format.
+            </p>
+            
+            <p>
+                This is especially critical in business analytics and data science, where we work at the intersection of multiple disciplines. You might need to cite an academic paper on machine learning, reference a government dataset on economic indicators, and pull statistics from an industry report—all in the same presentation. One organizational system handles all three.
+            </p>
+            
+            <h2>Getting Started</h2>
+            
+            <p>
+                Download both templates. Use them for your next research task—whether that's a class literature review, a work presentation, or a personal learning project.
+            </p>
+            
+            <p>
+                After you've filled out three or four, you'll start to see the value. You'll search for something and actually find it. You'll prepare a presentation and have citations ready. You'll write a paper and not have to re-read everything.
+            </p>
+            
+            <p>
+                That's when the system becomes invisible. That's when it just becomes how you work.
+            </p>
+            
+            <div class="callout">
+                <h4>Download the templates:</h4>
+                <p style="margin-top: 15px;"><a href="../templates/Analytical_Ledger_Deep_Analysis_Template.docx" class="download-btn" download>Deep Analysis Template (30 min)</a></p>
+                <p style="margin-top: 15px;"><a href="../templates/Analytical_Ledger_Quick_Scan_Template.docx" class="download-btn" download>Quick-Scan Template (10 min)</a></p>
+            </div>
+            
+            <hr style="margin: 50px 0; border: none; border-top: 2px solid #e0e0e0;">
+            
+            <p>
+                <em>This is the first article on The Analytical Ledger. If you find these templates useful, I'd love to hear how you're using them. Connect with me on LinkedIn or share your adaptations. Let's build better research practices together.</em>
+            </p>
+            
+            <p style="margin-top: 25px;">
+                <em>— Coty</em>
+            </p>
+        </article>
+        
+        <div class="share-section">
+            <h3>Share this article</h3>
+            <div class="share-buttons">
+                <a href="#" class="share-button linkedin" onclick="shareOnLinkedIn(event)">
+                    <span>LinkedIn</span>
+                </a>
+                <a href="#" class="share-button twitter" onclick="shareOnTwitter(event)">
+                    <span>Twitter</span>
+                </a>
+                <a href="#" class="share-button email" onclick="shareViaEmail(event)">
+                    <span>Email</span>
+                </a>
+                <a href="#" class="share-button" onclick="copyLink(event)">
+                    <span>Copy Link</span>
+                </a>
+            </div>
+        </div>
+    </main>
+    
+    <footer>
+        <p>&copy; 2026 The Analytical Ledger. All rights reserved.</p>
+    </footer>
+    
+    <script>
+        function toggleMenu() {
+            const navLinks = document.getElementById('navLinks');
+            navLinks.classList.toggle('active');
+        }
+        
+        document.addEventListener('click', function(event) {
+            const nav = document.querySelector('nav');
+            const navLinks = document.getElementById('navLinks');
+            if (!nav.contains(event.target)) {
+                navLinks.classList.remove('active');
+            }
+        });
+        
+        function shareOnLinkedIn(e) {
+            e.preventDefault();
+            const url = encodeURIComponent(window.location.href);
+            const title = encodeURIComponent(document.title);
+            window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${url}`, '_blank', 'width=600,height=400');
+        }
+        
+        function shareOnTwitter(e) {
+            e.preventDefault();
+            const url = encodeURIComponent(window.location.href);
+            const title = encodeURIComponent(document.querySelector('h1').textContent);
+            window.open(`https://twitter.com/intent/tweet?url=${url}&text=${title}`, '_blank', 'width=600,height=400');
+        }
+        
+        function shareViaEmail(e) {
+            e.preventDefault();
+            const subject = encodeURIComponent(document.title);
+            const body = encodeURIComponent(`I thought you might find this article interesting:\n\n${document.querySelector('h1').textContent}\n\n${window.location.href}`);
+            window.location.href = `mailto:?subject=${subject}&body=${body}`;
+        }
+        
+        function copyLink(e) {
+            e.preventDefault();
+            navigator.clipboard.writeText(window.location.href).then(() => {
+                const button = e.target.closest('.share-button');
+                const originalText = button.querySelector('span').textContent;
+                button.querySelector('span').textContent = 'Link Copied!';
+                setTimeout(() => {
+                    button.querySelector('span').textContent = originalText;
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>

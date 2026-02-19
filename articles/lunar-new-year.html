@@ -291,20 +291,9 @@
             background-color: #f5f5f5;
         }
         
-        .tableau-container {
-            position: relative;
-            padding-bottom: 75%;
-            height: 0;
-            overflow: hidden;
-        }
-        
-        .tableau-container iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
+        .tableauPlaceholder {
             width: 100%;
-            height: 100%;
-            border: none;
+            min-height: 500px;
         }
         
         .callout {
@@ -548,11 +537,23 @@
         
         <article>
             <p>
-                I was browsing Serenity Moon, a small shop in Kent, Washington that carries teaware and gifts. I asked the owner if she ever stocked gaiwans—the lidded brewing vessels central to gongfu tea practice. She looked at me sideways. "Nobody around here would buy that," she said.
+                I was browsing Serenity Moon, a small shop in Kent, Washington that carries teaware and gifts. I asked the owner if she ever stocked gaiwans—the lidded brewing vessels central to gongfu tea practice. She shook her head. "I only carry basic glass ones. Nobody around here would buy the porcelain kind—they're too fragile to ship, and the demand isn't high enough to justify the risk."
             </p>
             
             <p>
-                Two weeks later I walked into Target and found a full Lunar New Year display. Porcelain gaiwans. Red packaging. Premium placement.
+                Two weeks later, I walked into Target and found a full Lunar New Year display. Porcelain gaiwans. Red packaging. Premium placement. I bought one and brought it back to show her.
+            </p>
+            
+            <p>
+                She held it carefully, turning it over in her hands. Then she looked at me with something between disbelief and emotion I couldn't quite name. "This... at Target?"
+            </p>
+            
+            <p>
+                What I didn't understand then—but learned in our conversation—was that her hesitation wasn't about ignorance of trends. It was shaped by decades of experience in an America that had taught her to keep Chinese culture behind closed doors.
+            </p>
+            
+            <p>
+                She immigrated during an era defined by the "model minority" myth and persistent xenophobia. An era when displaying your culture too openly invited suspicion, when running an Asian business meant constantly calculating what was "safe" to sell, what might draw the wrong kind of attention. The idea that a major American retailer would dedicate premium floor space—not tucked in an "ethnic" aisle, but front and center—to Lunar New Year items wasn't just surprising to her. It represented a societal shift she never expected to see.
             </p>
             
             <p>
@@ -564,37 +565,37 @@
             <div class="carousel">
                 <div class="carousel-container">
                     <div class="carousel-slide active">
-                        <img src="../images/target-gaiwan.png" alt="Target Lunar New Year display - Gaiwan product listing">
+                        <img src="../images/target-gaiwan.png" alt="Target Lunar New Year gaiwan product listing">
                     </div>
                     <div class="carousel-slide">
-                        <img src="../images/gaiwan-detail-1.png" alt="Gaiwan detail - Red horse and floral design">
+                        <img src="../images/gaiwan-detail-1.png" alt="Target Lunar New Year merchandise display">
                     </div>
                     <div class="carousel-slide">
-                        <img src="../images/gaiwan-detail-2.png" alt="Gaiwan with tea setup and plants">
+                        <img src="../images/gaiwan-detail-2.png" alt="Target Lunar New Year plant and decoration display">
                     </div>
                     <div class="carousel-slide">
-                        <img src="../images/gaiwan-detail-3.png" alt="Gaiwan lid detail">
+                        <img src="../images/gaiwan-detail-3.png" alt="Red tassels - Lunar New Year decorations">
                     </div>
                     <div class="carousel-slide">
-                        <img src="../images/gaiwan-detail-4.png" alt="Gaiwan with tea brewing">
+                        <img src="../images/gaiwan-detail-4.png" alt="Red slippers with Lunar New Year design">
                     </div>
                     <div class="carousel-slide">
-                        <img src="../images/gaiwan-detail-5.png" alt="Full gaiwan set with lid and saucer">
+                        <img src="../images/gaiwan-detail-5.png" alt="Lunar New Year Barbie doll">
                     </div>
                     <div class="carousel-slide">
-                        <img src="../images/gaiwan-detail-6.png" alt="Gaiwan artistic detail">
+                        <img src="../images/gaiwan-detail-6.png" alt="Gaiwan bowl detail - red horse and floral design">
                     </div>
                     <div class="carousel-slide">
-                        <img src="../images/dashboard-1.png" alt="Tableau dashboard preview 1">
+                        <img src="../images/dashboard-1.png" alt="Tableau dashboard - Population growth analysis">
                     </div>
                     <div class="carousel-slide">
-                        <img src="../images/dashboard-2.png" alt="Tableau dashboard preview 2">
+                        <img src="../images/dashboard-2.png" alt="Tableau dashboard - Search trends and geographic distribution">
                     </div>
                     <button class="carousel-button prev" onclick="changeSlide(-1)">‹</button>
                     <button class="carousel-button next" onclick="changeSlide(1)">›</button>
                 </div>
                 <div class="carousel-dots" id="carouselDots"></div>
-                <div class="image-caption">Lunar New Year gaiwan from Target, Kent WA (swipe/click to view detail photos and dashboard previews)</div>
+                <div class="image-caption">Target's Lunar New Year display, Kent WA - Featuring gaiwans, decorations, and cultural merchandise (swipe/click to view all photos and dashboard previews)</div>
             </div>
             
             <p>
@@ -606,9 +607,45 @@
             </p>
             
             <div class="tableau-embed">
-                <div class="tableau-container">
-                    <iframe src="https://public.tableau.com/app/profile/coty.colson/viz/FromInvisibletoEssentialTheRiseofLunarNewYearinAmerica/LunarNewYear?:embed=yes&:display_count=yes&:showVizHome=no" frameborder="0" allowfullscreen></iframe>
+                <div class='tableauPlaceholder' id='viz1708300000000' style='position: relative'>
+                    <noscript>
+                        <a href='#'>
+                            <img alt='Lunar New Year Dashboard' src='https://public.tableau.com/static/images/Fr/FromInvisibletoEssentialTheRiseofLunarNewYearinAmerica/LunarNewYear/1_rss.png' style='border: none' />
+                        </a>
+                    </noscript>
+                    <object class='tableauViz' style='display:none;'>
+                        <param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> 
+                        <param name='embed_code_version' value='3' /> 
+                        <param name='site_root' value='' />
+                        <param name='name' value='FromInvisibletoEssentialTheRiseofLunarNewYearinAmerica/LunarNewYear' />
+                        <param name='tabs' value='no' />
+                        <param name='toolbar' value='yes' />
+                        <param name='static_image' value='https://public.tableau.com/static/images/Fr/FromInvisibletoEssentialTheRiseofLunarNewYearinAmerica/LunarNewYear/1.png' /> 
+                        <param name='animate_transition' value='yes' />
+                        <param name='display_static_image' value='yes' />
+                        <param name='display_spinner' value='yes' />
+                        <param name='display_overlay' value='yes' />
+                        <param name='display_count' value='yes' />
+                        <param name='language' value='en-US' />
+                    </object>
                 </div>
+                <script type='text/javascript'>
+                    var divElement = document.getElementById('viz1708300000000');
+                    var vizElement = divElement.getElementsByTagName('object')[0];
+                    if (divElement.offsetWidth > 800) {
+                        vizElement.style.width='100%';
+                        vizElement.style.height=(divElement.offsetWidth*0.75)+'px';
+                    } else if (divElement.offsetWidth > 500) {
+                        vizElement.style.width='100%';
+                        vizElement.style.height=(divElement.offsetWidth*0.75)+'px';
+                    } else {
+                        vizElement.style.width='100%';
+                        vizElement.style.height='977px';
+                    }
+                    var scriptElement = document.createElement('script');
+                    scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';
+                    vizElement.parentNode.insertBefore(scriptElement, vizElement);
+                </script>
                 <div class="image-caption">Interactive dashboard: U.S. Census Bureau population estimates (2020–2024) and Google Trends search data via pytrends</div>
             </div>
             
@@ -648,29 +685,45 @@
             </div>
             
             <p>
-                That last number matters to me personally. Kent, Washington, where a shop owner told me nobody would buy a gaiwan, sits in a state that ranks third in the country for Lunar New Year consumer interest. The demand was never absent. It was just invisible to the people who could have served it.
+                That last number is crucial. Kent, Washington—where a shop owner learned through decades of experience to be cautious about what cultural items she stocked—sits in a state that ranks third in the country for Lunar New Year consumer interest. The demand was never absent. It was just invisible to someone without access to aggregated search data and demographic forecasting tools.
             </p>
             
             <p>
-                The map also reveals something useful for brand strategists: interest doesn't stop at the coasts. Texas, Virginia, Maryland, Illinois, and Colorado all show meaningful scores. The Asian American consumer base is no longer geographically concentrated—it's distributed, growing, and increasingly visible to retailers willing to look.
+                This is the gap between large retailers and small businesses. Target has teams of analysts running predictive models on consumer behavior. Small shop owners have their own experience and their customers' immediate feedback. When your experience taught you that openly displaying Chinese culture could invite trouble, that immediate feedback carries more weight than any abstract notion of "changing demographics."
+            </p>
+            
+            <p>
+                The map also reveals something useful for brand strategists: interest doesn't stop at the coasts. Texas, Virginia, Maryland, Illinois, and Colorado all show meaningful scores. The Asian American consumer base is no longer geographically concentrated—it's distributed, growing, and increasingly visible to retailers with the resources to look at the data.
             </p>
             
             <h2>What the Gaiwan Means</h2>
             
             <p>
-                This data project started as a curiosity and became a case study in cultural market timing.
+                This data project started as a curiosity and became a case study in cultural market timing—and something more personal about generational experience.
             </p>
             
             <p>
-                Retailers who built Lunar New Year displays in 2024 and 2025 weren't being generous or culturally sensitive in some abstract sense. They were responding to a population that grew 13% in four years, that searches in growing volume every January and February, and that is concentrated in states with significant purchasing power.
+                Retailers who built Lunar New Year displays in 2024 and 2025 weren't being generous or culturally sensitive in some abstract sense. They were responding to a population that grew 13% in four years, that searches in growing volume every January and February, and that is concentrated in states with significant purchasing power. The purchasing power of Asian American consumers is projected to reach $1.9 trillion by 2026. Global consumer spending during Lunar New Year reached approximately $1.5 trillion in 2023.
             </p>
             
             <p>
-                The shop owner in Kent wasn't wrong about her current customers. She was wrong about her future ones.
+                But here's what the numbers don't capture: the shop owner in Kent wasn't wrong about her assessment. She was speaking from lived experience in an America where displaying Chinese culture openly could invite hostility, where running an Asian business meant constant calculations about what was "safe" to stock. Her caution was survival strategy, not market ignorance.
             </p>
             
             <p>
-                The gaiwan sitting in the Target aisle isn't a symbol of assimilation. It's a signal that the market finally caught up to the demographic.
+                What she didn't have access to—what small business owners rarely have—is the demographic forecasting data that retailers like Target use to make billion-dollar inventory decisions. The data that shows Asian American purchasing power grew 314% over the last two decades, far exceeding the 119% growth of the total U.S. market. The consumer research showing that 51% of Asian American consumers have higher appreciation for brands that advertise in media reflecting their culture. The predictive analytics forecasting near-double-digit growth in Lunar New Year-related consumer spending.
+            </p>
+            
+            <p>
+                The gaiwan sitting in the Target aisle represents a generational shift. Her generation survived by assimilating, by keeping culture private, by minimizing difference. This generation—my generation—is seeing lion dancers at university celebrations, red envelopes in mainstream retail, and traditional teaware in premium display space.
+            </p>
+            
+            <p>
+                The data tells us this shift is economically driven and demographically inevitable. But standing in that shop, watching her hold that Target gaiwan with disbelief and something like hope—that's when I understood that numbers alone don't capture what representation means to people who spent decades being told to hide.
+            </p>
+            
+            <p>
+                This is why I study analytics: to understand how these numbers turn into representation, how demographic data becomes cultural visibility, and how we can use evidence to ensure these stories are never invisible again.
             </p>
             
             <hr style="margin: 50px 0; border: none; border-top: 2px solid #e0e0e0;">

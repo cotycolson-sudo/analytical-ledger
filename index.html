@@ -1,281 +1,383 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Analytical Ledger | AI, Data Ethics, and Business Logic</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Georgia', 'Times New Roman', 'Palatino', serif;
-            line-height: 1.6;
-            color: #1a1a1a;
-            background-color: #ffffff;
-        }
-        
-        nav {
-            background-color: #f5f5f5;
-            padding: 15px 20px;
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-        }
-        
-        .hamburger {
-            display: none;
-            flex-direction: column;
-            cursor: pointer;
-            gap: 5px;
-        }
-        
-        .hamburger span {
-            width: 25px;
-            height: 3px;
-            background-color: #1a1a1a;
-            transition: 0.3s;
-        }
-        
-        .nav-links {
-            display: flex;
-            gap: 30px;
-            list-style: none;
-        }
-        
-        .nav-links a {
-            color: #1a1a1a;
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.2s;
-        }
-        
-        .nav-links a:hover {
-            color: #666;
-        }
-        
-        header {
-            background-color: #f5f5f5;
-            border-bottom: 2px solid #1a1a1a;
-            padding: 50px 20px 30px;
-            margin-bottom: 50px;
-        }
-        
-        .header-content {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        
-        h1 {
-            font-size: 2.5em;
-            font-weight: 700;
-            margin-bottom: 10px;
-            letter-spacing: -0.5px;
-        }
-        
-        .tagline {
-            font-size: 1.1em;
-            color: #4a4a4a;
-            font-weight: 400;
-        }
-        
-        main {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-        
-        .article {
-            margin-bottom: 50px;
-            padding-bottom: 40px;
-            border-bottom: 1px solid #e0e0e0;
-        }
-        
-        .article:last-child {
-            border-bottom: none;
-        }
-        
-        .article-date {
-            font-size: 0.9em;
-            color: #666;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        
-        .article h2 {
-            font-size: 1.8em;
-            margin-bottom: 15px;
-            font-weight: 600;
-        }
-        
-        .article h2 a {
-            color: #1a1a1a;
-            text-decoration: none;
-            transition: color 0.2s;
-        }
-        
-        .article h2 a:hover {
-            color: #666;
-        }
-        
-        .article-excerpt {
-            font-size: 1.05em;
-            line-height: 1.7;
-            color: #333;
-            margin-bottom: 15px;
-        }
-        
-        .tags {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-        
-        .tag {
-            display: inline-block;
-            padding: 5px 12px;
-            background-color: #1a1a1a;
-            color: #ffffff;
-            font-size: 0.85em;
-            text-decoration: none;
-            transition: background-color 0.2s;
-        }
-        
-        .tag:hover {
-            background-color: #4a4a4a;
-        }
-        
-        footer {
-            margin-top: 60px;
-            padding: 30px 20px;
-            border-top: 2px solid #1a1a1a;
-            text-align: center;
-            color: #666;
-            font-size: 0.9em;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        
-        @media (max-width: 768px) {
-            .hamburger {
-                display: flex;
-            }
-            
-            .nav-links {
-                position: fixed;
-                right: -100%;
-                top: 53px;
-                flex-direction: column;
-                background-color: #f5f5f5;
-                width: 200px;
-                padding: 20px;
-                box-shadow: -2px 2px 10px rgba(0,0,0,0.1);
-                transition: 0.3s;
-                gap: 20px;
-            }
-            
-            .nav-links.active {
-                right: 0;
-            }
-            
-            .tagline {
-                display: none;
-            }
-            
-            header {
-                padding: 30px 20px 20px;
-            }
-        }
-        
-        @media (max-width: 600px) {
-            h1 {
-                font-size: 2em;
-            }
-            
-            .article h2 {
-                font-size: 1.5em;
-            }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Analytical Ledger</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;1,8..60,300;1,8..60,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ink: #1a1410;
+      --warm-black: #231f1a;
+      --cream: #f7f4ef;
+      --warm-white: #fdfcfa;
+      --accent: #b5451b;
+      --gold: #c9a84c;
+      --rule: #d8cfc4;
+      --muted: #7a6f65;
+      --sidebar-bg: #f0ebe3;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--warm-white);
+      color: var(--ink);
+      font-family: 'Source Serif 4', Georgia, serif;
+      font-size: 17px;
+      line-height: 1.7;
+    }
+
+    /* ── MASTHEAD ── */
+    .masthead {
+      border-bottom: 3px double var(--ink);
+      padding: 1.25rem 2rem 1rem;
+      text-align: center;
+      background: var(--warm-white);
+    }
+    .pub-name {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 5vw, 3rem);
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      color: var(--ink);
+      text-transform: uppercase;
+      text-decoration: none;
+      display: block;
+    }
+    .pub-tagline {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 300;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 0.25rem;
+    }
+    nav {
+      margin-top: 0.9rem;
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      border-top: 1px solid var(--rule);
+      padding-top: 0.75rem;
+    }
+    nav a {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ink);
+      text-decoration: none;
+    }
+    nav a:hover { color: var(--accent); }
+    nav a.active { color: var(--accent); border-bottom: 1px solid var(--accent); padding-bottom: 1px; }
+
+    /* ── PAGE WRAP ── */
+    .page-wrap {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem 4rem;
+    }
+
+    /* ── FEATURED ARTICLE (TOP) ── */
+    .featured {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      padding-bottom: 2.5rem;
+      border-bottom: 2px solid var(--ink);
+      margin-bottom: 2.75rem;
+    }
+    .featured-visual {
+      width: 100%;
+      aspect-ratio: 4/3;
+      background: linear-gradient(135deg, #1a1410 0%, #3d2b1f 45%, #7a4f30 75%, #c9a84c 100%);
+      border-radius: 2px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: flex-end;
+      padding: 1rem;
+    }
+    .featured-visual::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(255,255,255,0.015) 2px, rgba(255,255,255,0.015) 4px);
+    }
+    .featured-visual-label {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+      z-index: 1;
+    }
+    .featured-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .section-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.62rem;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.85rem;
+    }
+    .section-label::before {
+      content: '';
+      display: block;
+      width: 20px;
+      height: 1px;
+      background: var(--accent);
+    }
+    .featured-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.6rem, 3.2vw, 2.6rem);
+      font-weight: 700;
+      line-height: 1.18;
+      color: var(--warm-black);
+      margin-bottom: 0.9rem;
+    }
+    .featured-title a {
+      text-decoration: none;
+      color: inherit;
+    }
+    .featured-title a:hover { color: var(--accent); }
+    .featured-deck {
+      font-family: 'Source Serif 4', serif;
+      font-size: 1rem;
+      font-weight: 300;
+      font-style: italic;
+      line-height: 1.65;
+      color: #4a403a;
+      margin-bottom: 1.2rem;
+      border-left: 3px solid var(--gold);
+      padding-left: 1rem;
+    }
+    .article-meta {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin-bottom: 1.25rem;
+    }
+    .read-more {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      text-decoration: none;
+    }
+    .read-more::after { content: '→'; }
+    .read-more:hover { color: var(--warm-black); }
+
+    /* ── RECENT ARTICLES GRID ── */
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      gap: 1rem;
+      margin-bottom: 1.75rem;
+    }
+    .section-header h2 {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .section-header::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--rule);
+    }
+
+    .article-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .article-row {
+      display: grid;
+      grid-template-columns: 100px 1fr;
+      gap: 1.5rem;
+      padding: 1.75rem 0;
+      border-bottom: 1px solid var(--rule);
+    }
+    .article-row:last-child { border-bottom: none; }
+    .article-thumb {
+      width: 100px;
+      height: 80px;
+      border-radius: 2px;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .thumb-lunar {
+      background: linear-gradient(135deg, #8B1A2A 0%, #C9373A 50%, #E8A020 100%);
+      width: 100%; height: 100%;
+    }
+    .thumb-research {
+      background: linear-gradient(135deg, #2c3e50 0%, #4a6741 50%, #c9a84c 100%);
+      width: 100%; height: 100%;
+    }
+    .article-info { display: flex; flex-direction: column; justify-content: center; }
+    .article-row .section-label { margin-bottom: 0.3rem; }
+    .article-row-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      font-weight: 600;
+      line-height: 1.3;
+      color: var(--warm-black);
+      margin-bottom: 0.35rem;
+    }
+    .article-row-title a { text-decoration: none; color: inherit; }
+    .article-row-title a:hover { color: var(--accent); }
+    .article-row-excerpt {
+      font-size: 0.88rem;
+      line-height: 1.6;
+      color: #4a403a;
+      margin-bottom: 0.6rem;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .tag-list { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+    .tag {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.58rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.5rem;
+      border: 1px solid var(--rule);
+      color: var(--muted);
+      text-decoration: none;
+      background: transparent;
+    }
+    .tag:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 3px double var(--ink);
+      padding: 1.5rem 2rem;
+      text-align: center;
+    }
+    footer p {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    @media (max-width: 680px) {
+      .featured { grid-template-columns: 1fr; gap: 1.5rem; }
+      .featured-visual { aspect-ratio: 16/7; }
+      .article-row { grid-template-columns: 80px 1fr; gap: 1rem; }
+      .article-thumb { width: 80px; height: 65px; }
+    }
+  </style>
 </head>
 <body>
-    <nav>
-        <div class="hamburger" onclick="toggleMenu()">
-            <span></span>
-            <span></span>
-            <span></span>
+
+<header class="masthead">
+  <a href="/" class="pub-name">The Analytical Ledger</a>
+  <div class="pub-tagline">Fresh perspectives on AI, data ethics, and the new business logic.</div>
+  <nav>
+    <a href="/" class="active">Home</a>
+    <a href="/archive.html">Archive</a>
+    <a href="/tags.html">Tags</a>
+    <a href="/about.html">About</a>
+    <a href="/contact.html">Contact</a>
+  </nav>
+</header>
+
+<main class="page-wrap">
+
+  <!-- FEATURED: LATEST ARTICLE -->
+  <article class="featured">
+    <div class="featured-visual">
+      <span class="featured-visual-label">AI-Driven Marketing · Mainland China · 2026</span>
+    </div>
+    <div class="featured-content">
+      <div class="section-label">AI &amp; Technology</div>
+      <h2 class="featured-title">
+        <a href="/articles/china-ai-marketing.html">China's Precision Marketing Revolution: How AI Turned a Billion Users Into a Living Laboratory</a>
+      </h2>
+      <p class="featured-deck">Mainland China has bypassed traditional retail entirely — and in doing so, built the world's most advanced testing ground for AI-driven consumer behavior. What happens there won't stay there.</p>
+      <div class="article-meta">February 24, 2026</div>
+      <a href="/articles/china-ai-marketing.html" class="read-more">Read Article</a>
+    </div>
+  </article>
+
+  <!-- RECENT ARTICLES -->
+  <div class="section-header">
+    <h2>Recent Articles</h2>
+  </div>
+
+  <div class="article-list">
+
+    <article class="article-row">
+      <div class="article-thumb">
+        <div class="thumb-lunar"></div>
+      </div>
+      <div class="article-info">
+        <div class="section-label">Data Analytics</div>
+        <h3 class="article-row-title">
+          <a href="/articles/lunar-new-year">From Invisible to Essential: The Rise of Lunar New Year in America</a>
+        </h3>
+        <p class="article-row-excerpt">A tea shop owner in Kent told me nobody would buy traditional teaware. Two weeks later, I found gaiwans at Target. Using Census data and Google Trends, I built a dashboard to understand why — and discovered a demographic story major retailers read more carefully than small shops.</p>
+        <div class="article-meta" style="margin-bottom:0.5rem;">February 18, 2026</div>
+        <div class="tag-list">
+          <a href="/tags.html#data-analytics" class="tag">Data Analytics</a>
+          <a href="/tags.html#marketing" class="tag">Marketing</a>
+          <a href="/tags.html#consumer-trends" class="tag">Consumer Trends</a>
+          <a href="/tags.html#asian-american" class="tag">Asian American</a>
         </div>
-        <ul class="nav-links" id="navLinks">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="archive.html">Archive</a></li>
-            <li><a href="tags.html">Tags</a></li>
-            <li><a href="about.html">About</a></li>
-            <li><a href="contact.html">Contact</a></li>
-        </ul>
-    </nav>
-    
-    <header>
-        <div class="header-content">
-            <h1>The Analytical Ledger</h1>
-            <p class="tagline">Fresh perspectives on AI, data ethics, and the new business logic.</p>
+      </div>
+    </article>
+
+    <article class="article-row">
+      <div class="article-thumb">
+        <div class="thumb-research"></div>
+      </div>
+      <div class="article-info">
+        <div class="section-label">Research</div>
+        <h3 class="article-row-title">
+          <a href="/articles/research-templates">Research Organization Templates for Students and Analysts</a>
+        </h3>
+        <p class="article-row-excerpt">Remember high school note cards? They weren't busy work — they were teaching us a system. Here's the digital equivalent: two free templates for organizing academic articles and data sets.</p>
+        <div class="article-meta" style="margin-bottom:0.5rem;">February 6, 2026</div>
+        <div class="tag-list">
+          <a href="/tags.html#research" class="tag">Research</a>
+          <a href="/tags.html#data-analytics" class="tag">Data Analytics</a>
+          <a href="/tags.html#stem" class="tag">STEM</a>
+          <a href="/tags.html#templates" class="tag">Templates</a>
         </div>
-    </header>
-    
-    <main>
-        <!-- Featured Article - Lunar New Year -->
-        <article class="article">
-            <div class="article-date">February 18, 2026</div>
-            <h2><a href="articles/lunar-new-year.html">From Invisible to Essential: The Rise of Lunar New Year in America</a></h2>
-            <p class="article-excerpt">
-                A tea shop owner in Kent told me nobody would buy traditional teaware. Two weeks later, I found gaiwans at Target. Using Census data and Google Trends, I built a dashboard to understand why—and discovered a demographic story major retailers read more carefully than small shops. Asian Americans grew 13% from 2020–2024, and Washington state ranks third nationally for Lunar New Year search interest. The demand was never absent. It was just invisible.
-            </p>
-            <div class="tags">
-                <a href="tags.html#data-analytics" class="tag">Data Analytics</a>
-                <a href="tags.html#marketing" class="tag">Marketing</a>
-                <a href="tags.html#consumer-trends" class="tag">Consumer Trends</a>
-                <a href="tags.html#asian-american" class="tag">Asian American</a>
-            </div>
-        </article>
-        
-        <!-- Article - Research Templates -->
-        <article class="article">
-            <div class="article-date">February 6, 2026</div>
-            <h2><a href="articles/research-templates.html">Research Organization Templates for Students and Analysts</a></h2>
-            <p class="article-excerpt">
-                Remember high school note cards? They weren't busy work—they were teaching us a system. Here's the digital equivalent: two free templates for organizing academic articles and data sets. Whether you're a student writing a literature review or a professional preparing evidence-based presentations, these templates help you stop re-reading papers at midnight searching for "that one statistic."
-            </p>
-            <div class="tags">
-                <a href="tags.html#research" class="tag">Research</a>
-                <a href="tags.html#data-analytics" class="tag">Data Analytics</a>
-                <a href="tags.html#stem" class="tag">STEM</a>
-                <a href="tags.html#templates" class="tag">Templates</a>
-            </div>
-        </article>
-    </main>
-    
-    <footer>
-        <p>&copy; 2026 The Analytical Ledger. All rights reserved.</p>
-    </footer>
-    
-    <script>
-        function toggleMenu() {
-            const navLinks = document.getElementById('navLinks');
-            navLinks.classList.toggle('active');
-        }
-        
-        // Close menu when clicking outside
-        document.addEventListener('click', function(event) {
-            const nav = document.querySelector('nav');
-            const navLinks = document.getElementById('navLinks');
-            if (!nav.contains(event.target)) {
-                navLinks.classList.remove('active');
-            }
-        });
-    </script>
+      </div>
+    </article>
+
+  </div>
+
+</main>
+
+<footer>
+  <p>© 2026 The Analytical Ledger. All rights reserved.</p>
+</footer>
+
 </body>
 </html>

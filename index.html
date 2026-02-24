@@ -91,28 +91,21 @@
     .featured-visual {
       width: 100%;
       aspect-ratio: 4/3;
-      background: linear-gradient(135deg, #1a1410 0%, #3d2b1f 45%, #7a4f30 75%, #c9a84c 100%);
       border-radius: 2px;
-      position: relative;
       overflow: hidden;
-      display: flex;
-      align-items: flex-end;
-      padding: 1rem;
     }
-    .featured-visual::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(255,255,255,0.015) 2px, rgba(255,255,255,0.015) 4px);
+    .featured-visual img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+      transition: transform 0.4s ease;
     }
-    .featured-visual-label {
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.6rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.4);
-      z-index: 1;
+    .featured-visual:hover img {
+      transform: scale(1.03);
     }
+    .featured-visual-label { display: none; }
     .featured-content {
       display: flex;
       flex-direction: column;
@@ -310,9 +303,9 @@
 
   <!-- FEATURED: LATEST ARTICLE -->
   <article class="featured">
-    <div class="featured-visual">
-      <span class="featured-visual-label">AI-Driven Marketing · Mainland China · 2026</span>
-    </div>
+    <a href="/articles/china-ai-marketing.html" class="featured-visual">
+      <img src="/images/china-ai.png" alt="Shanghai skyline overlaid with AI data network visualization representing China's precision marketing ecosystem" />
+    </a>
     <div class="featured-content">
       <div class="section-label">AI &amp; Technology</div>
       <h2 class="featured-title">

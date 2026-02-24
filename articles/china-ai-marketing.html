@@ -157,31 +157,30 @@
     .byline-name { color: var(--ink); font-weight: 500; }
 
     /* ── HERO VISUAL ── */
+    .hero-wrap {
+      margin-bottom: 2.25rem;
+    }
     .hero-visual {
       width: 100%;
       aspect-ratio: 16/7;
-      background: linear-gradient(135deg, #1a1410 0%, #3d2b1f 40%, #7a4f30 70%, #c9a84c 100%);
       border-radius: 2px;
-      margin-bottom: 2.25rem;
-      position: relative;
       overflow: hidden;
-      display: flex;
-      align-items: flex-end;
-      padding: 1.25rem;
+      display: block;
     }
-    .hero-visual::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(255,255,255,0.015) 2px, rgba(255,255,255,0.015) 4px);
+    .hero-visual img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
     }
     .hero-caption {
       font-family: 'DM Sans', sans-serif;
       font-size: 0.62rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.4);
-      z-index: 1;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      margin-top: 0.5rem;
+      font-style: italic;
     }
 
     /* ── BODY COPY ── */
@@ -485,8 +484,11 @@
         </div>
       </header>
 
-      <div class="hero-visual">
-        <span class="hero-caption">China's social commerce ecosystem — Douyin, Rednote, WeChat — February 2026</span>
+      <div class="hero-wrap">
+        <div class="hero-visual">
+          <img src="../images/china-ai.png" alt="Shanghai skyline overlaid with AI network visualization, data nodes, and a glowing map of China — representing the fusion of digital infrastructure and consumer intelligence in China's precision marketing ecosystem." />
+        </div>
+        <p class="hero-caption">Shanghai's Pudong skyline rendered as an AI data network — a visual metaphor for the fusion of digital infrastructure and consumer intelligence driving China's precision marketing revolution.</p>
       </div>
 
       <div class="article-body">

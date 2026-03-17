@@ -227,6 +227,48 @@
       background: linear-gradient(135deg, #2c3e50 0%, #4a6741 50%, #c9a84c 100%);
       width: 100%; height: 100%;
     }
+    .thumb-china {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      width: 100%; height: 100%;
+    }
+    .featured-visual-css {
+      width: 100%;
+      aspect-ratio: 4/3;
+      border-radius: 2px;
+      overflow: hidden;
+      background: linear-gradient(135deg, #1a1410 0%, #2c2016 25%, #3d1a0a 50%, #1a2535 75%, #0f1820 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .featured-visual-css::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 20% 50%, rgba(201,168,76,0.12) 0%, transparent 50%),
+        radial-gradient(circle at 80% 30%, rgba(181,69,27,0.15) 0%, transparent 40%);
+    }
+    .featured-visual-css:hover::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.08);
+    }
+    .featured-visual-eq {
+      font-family: 'DM Sans', sans-serif;
+      font-size: clamp(0.45rem, 1vw, 0.7rem);
+      color: rgba(232, 213, 163, 0.5);
+      letter-spacing: 0.06em;
+      text-align: center;
+      padding: 1.5rem;
+      position: relative;
+      z-index: 1;
+      line-height: 2;
+    }
     .article-info { display: flex; flex-direction: column; justify-content: center; }
     .article-row .section-label { margin-bottom: 0.3rem; }
     .article-row-title {
@@ -303,17 +345,17 @@
 
   <!-- FEATURED: LATEST ARTICLE -->
   <article class="featured">
-    <a href="/articles/china-ai-marketing.html" class="featured-visual">
-      <img src="/images/china-ai.png" alt="Shanghai skyline overlaid with AI data network visualization representing China's precision marketing ecosystem" />
+    <a href="/articles/twin-2k.html" class="featured-visual-css">
+      <div class="featured-visual-eq">score_riskaversion_recode = 0.1315<br>− 0.000573(score_trustgame_sender)<br>− 0.01669(income[$75k–$100k])<br>− 0.01901(age[18–29])</div>
     </a>
     <div class="featured-content">
-      <div class="section-label">AI &amp; Technology</div>
+      <div class="section-label">Data Analytics</div>
       <h2 class="featured-title">
-        <a href="/articles/china-ai-marketing.html">China's Precision Marketing Revolution: How AI Turned a Billion Users Into a Living Laboratory</a>
+        <a href="/articles/twin-2k.html">We Built the Most Sophisticated Personality Model We Could. A 3-Variable Linear Model Still Won.</a>
       </h2>
-      <p class="featured-deck">Mainland China has bypassed traditional retail entirely — and in doing so, built the world's most advanced testing ground for AI-driven consumer behavior. What happens there won't stay there.</p>
-      <div class="article-meta">February 24, 2026</div>
-      <a href="/articles/china-ai-marketing.html" class="read-more">Read Article</a>
+      <p class="featured-deck">Six models. Eighteen predictors. Every Big Five personality trait the Twin-2K-500 dataset could offer. Three independent methods converged on the same parsimonious answer — and it didn't need any of them.</p>
+      <div class="article-meta">March 17, 2026</div>
+      <a href="/articles/twin-2k.html" class="read-more">Read Article</a>
     </div>
   </article>
 
@@ -323,6 +365,26 @@
   </div>
 
   <div class="article-list">
+
+    <article class="article-row">
+      <div class="article-thumb">
+        <div class="thumb-china"></div>
+      </div>
+      <div class="article-info">
+        <div class="section-label">AI &amp; Technology</div>
+        <h3 class="article-row-title">
+          <a href="/articles/china-ai-marketing.html">China's Precision Marketing Revolution: How AI Turned a Billion Users Into a Living Laboratory</a>
+        </h3>
+        <p class="article-row-excerpt">Mainland China has bypassed traditional retail entirely — building the world's most advanced testing ground for AI-driven consumer behavior. What happens there won't stay there.</p>
+        <div class="article-meta" style="margin-bottom:0.5rem;">February 24, 2026</div>
+        <div class="tag-list">
+          <a href="/tags.html#artificial-intelligence" class="tag">Artificial Intelligence</a>
+          <a href="/tags.html#digital-marketing" class="tag">Digital Marketing</a>
+          <a href="/tags.html#china" class="tag">China</a>
+          <a href="/tags.html#consumer-behavior" class="tag">Consumer Behavior</a>
+        </div>
+      </div>
+    </article>
 
     <article class="article-row">
       <div class="article-thumb">
@@ -340,26 +402,6 @@
           <a href="/tags.html#marketing" class="tag">Marketing</a>
           <a href="/tags.html#consumer-trends" class="tag">Consumer Trends</a>
           <a href="/tags.html#asian-american" class="tag">Asian American</a>
-        </div>
-      </div>
-    </article>
-
-    <article class="article-row">
-      <div class="article-thumb">
-        <div class="thumb-research"></div>
-      </div>
-      <div class="article-info">
-        <div class="section-label">Research</div>
-        <h3 class="article-row-title">
-          <a href="/articles/research-templates">Research Organization Templates for Students and Analysts</a>
-        </h3>
-        <p class="article-row-excerpt">Remember high school note cards? They weren't busy work — they were teaching us a system. Here's the digital equivalent: two free templates for organizing academic articles and data sets.</p>
-        <div class="article-meta" style="margin-bottom:0.5rem;">February 6, 2026</div>
-        <div class="tag-list">
-          <a href="/tags.html#research" class="tag">Research</a>
-          <a href="/tags.html#data-analytics" class="tag">Data Analytics</a>
-          <a href="/tags.html#stem" class="tag">STEM</a>
-          <a href="/tags.html#templates" class="tag">Templates</a>
         </div>
       </div>
     </article>

@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>We Built the Most Sophisticated Personality Model We Could. A 3-Variable Linear Model Still Won. | The Analytical Ledger</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,500;1,8..60,300;1,8..60,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ink: #1a1410;
+      --warm-black: #231f1a;
+      --cream: #f7f4ef;
+      --warm-white: #fdfcfa;
+      --accent: #b5451b;
+      --accent-light: #d4673a;
+      --gold: #c9a84c;
+      --gold-light: #e8d5a3;
+      --rule: #d8cfc4;
+      --muted: #7a6f65;
+      --sidebar-bg: #f0ebe3;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--warm-white);
+      color: var(--ink);
+      font-family: 'Source Serif 4', Georgia, serif;
+      font-size: 18px;
+      line-height: 1.78;
+    }
+
+    /* ── MASTHEAD ── */
+    .masthead {
+      border-bottom: 3px double var(--ink);
+      padding: 1.25rem 2rem 1rem;
+      text-align: center;
+      background: var(--warm-white);
+    }
+    .pub-name {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 5vw, 3rem);
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      color: var(--ink);
+      text-transform: uppercase;
+      text-decoration: none;
+      display: block;
+    }
+    .pub-tagline {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 300;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 0.25rem;
+    }
+    nav {
+      margin-top: 0.9rem;
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      border-top: 1px solid var(--rule);
+      padding-top: 0.75rem;
+    }
+    nav a {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ink);
+      text-decoration: none;
+    }
+    nav a:hover { color: var(--accent); }
+
+    /* ── LAYOUT ── */
+    .page-wrap {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+    .article-grid {
+      display: grid;
+      grid-template-columns: 1fr 260px;
+      gap: 3.5rem;
+      padding: 3rem 0 5rem;
+    }
+
+    /* ── BREADCRUMB ── */
+    .breadcrumb {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+    }
+    .breadcrumb a { color: var(--muted); text-decoration: none; }
+    .breadcrumb a:hover { color: var(--accent); }
+    .breadcrumb span { margin: 0 0.5rem; }
+
+    /* ── ARTICLE HEADER ── */
+    .article-header {
+      border-bottom: 1px solid var(--rule);
+      padding-bottom: 1.75rem;
+      margin-bottom: 2rem;
+    }
+    .section-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.62rem;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+    .section-label::before {
+      content: '';
+      display: block;
+      width: 22px;
+      height: 1px;
+      background: var(--accent);
+    }
+    h1.article-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.9rem, 4vw, 3.1rem);
+      font-weight: 700;
+      line-height: 1.15;
+      color: var(--warm-black);
+      margin-bottom: 1rem;
+    }
+    .article-deck {
+      font-family: 'Source Serif 4', serif;
+      font-size: 1.15rem;
+      font-weight: 300;
+      font-style: italic;
+      line-height: 1.65;
+      color: #4a403a;
+      border-left: 3px solid var(--gold);
+      padding-left: 1.1rem;
+      margin-bottom: 1.5rem;
+    }
+    .article-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.25rem;
+      align-items: center;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+    .byline-name { color: var(--ink); font-weight: 500; }
+
+    /* ── HERO VISUAL ── */
+    .hero-wrap { margin-bottom: 2.25rem; }
+    .hero-visual {
+      width: 100%;
+      aspect-ratio: 16/7;
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .hero-bg {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #1a1410 0%, #2c2016 25%, #3d1a0a 50%, #1a2535 75%, #0f1820 100%);
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .hero-bg::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 20% 50%, rgba(201,168,76,0.12) 0%, transparent 50%),
+        radial-gradient(circle at 80% 30%, rgba(181,69,27,0.15) 0%, transparent 40%),
+        radial-gradient(circle at 50% 80%, rgba(201,168,76,0.08) 0%, transparent 45%);
+    }
+    .hero-equation {
+      font-family: 'DM Sans', sans-serif;
+      font-size: clamp(0.55rem, 1.2vw, 0.85rem);
+      color: rgba(232, 213, 163, 0.55);
+      letter-spacing: 0.08em;
+      text-align: center;
+      padding: 1rem;
+      position: relative;
+      z-index: 1;
+    }
+    .hero-caption {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.62rem;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      margin-top: 0.5rem;
+      font-style: italic;
+    }
+
+    /* ── BODY COPY ── */
+    .article-body p {
+      margin-bottom: 1.45rem;
+      color: var(--warm-black);
+    }
+    .article-body p:first-of-type::first-letter {
+      font-family: 'Playfair Display', serif;
+      font-size: 4.5rem;
+      font-weight: 700;
+      float: left;
+      line-height: 0.8;
+      margin: 0.1em 0.08em 0 0;
+      color: var(--accent);
+    }
+
+    h2.section-head {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.55rem;
+      font-weight: 600;
+      color: var(--warm-black);
+      margin: 2.75rem 0 0.85rem;
+      padding-top: 2.25rem;
+      border-top: 1px solid var(--rule);
+    }
+    h3.source-head {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin: 1.75rem 0 0.4rem;
+    }
+
+    code {
+      font-family: 'Courier New', monospace;
+      font-size: 0.82em;
+      background: var(--cream);
+      padding: 0.15em 0.4em;
+      border-radius: 2px;
+      color: var(--warm-black);
+    }
+
+    /* ── PULLQUOTE ── */
+    .pullquote {
+      margin: 2.5rem 0;
+      padding: 1.5rem 2rem;
+      border-top: 2px solid var(--ink);
+      border-bottom: 2px solid var(--ink);
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      font-style: italic;
+      line-height: 1.5;
+      color: var(--warm-black);
+      text-align: center;
+      background: var(--cream);
+    }
+    .pullquote cite {
+      display: block;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.62rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-style: normal;
+      margin-top: 0.75rem;
+    }
+
+    /* ── DATA CALLOUT ── */
+    .data-callout {
+      background: var(--warm-black);
+      color: var(--cream);
+      padding: 1.75rem 2rem;
+      margin: 2.5rem 0;
+      border-radius: 2px;
+    }
+    .data-callout h4 {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.62rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.1rem;
+    }
+    .data-callout ul {
+      list-style: none;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.1rem;
+    }
+    .data-callout li {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.83rem;
+      line-height: 1.55;
+    }
+    .data-callout li strong {
+      display: block;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.55rem;
+      font-weight: 600;
+      color: var(--gold-light);
+      line-height: 1.1;
+      margin-bottom: 0.2rem;
+    }
+
+    /* ── TABLE ── */
+    .framework-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 2rem 0;
+      font-size: 0.9rem;
+    }
+    .framework-table thead tr {
+      background: var(--ink);
+      color: var(--cream);
+    }
+    .framework-table th {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.62rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 0.75rem 1rem;
+      text-align: left;
+    }
+    .framework-table td {
+      padding: 0.85rem 1rem;
+      border-bottom: 1px solid var(--rule);
+      vertical-align: top;
+      font-family: 'Source Serif 4', serif;
+    }
+    .framework-table tr:nth-child(even) td { background: var(--cream); }
+    .framework-table td:first-child {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 500;
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      white-space: nowrap;
+    }
+
+    /* ── REFERENCES ── */
+    .references {
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 2px solid var(--ink);
+    }
+    .references h4 {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.62rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1rem;
+    }
+    .references p {
+      font-size: 0.82rem;
+      line-height: 1.7;
+      color: var(--muted);
+      font-family: 'DM Sans', sans-serif;
+      margin-bottom: 0.65rem;
+    }
+    .references a { color: var(--accent); text-decoration: none; }
+    .references a:hover { text-decoration: underline; }
+
+    /* ── SIDEBAR ── */
+    .sidebar { padding-top: 0.5rem; }
+    .sidebar-block {
+      background: var(--sidebar-bg);
+      padding: 1.25rem;
+      margin-bottom: 1.75rem;
+      border-top: 2px solid var(--ink);
+    }
+    .sidebar-block h4 {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.6rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.85rem;
+    }
+    .sidebar-block p {
+      font-family: 'Source Serif 4', serif;
+      font-size: 0.88rem;
+      line-height: 1.65;
+      color: var(--warm-black);
+      margin-bottom: 0.7rem;
+    }
+    .sidebar-block p:last-child { margin-bottom: 0; }
+    .tag-list { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .tag {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.58rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.22rem 0.55rem;
+      border: 1px solid var(--rule);
+      color: var(--muted);
+      background: var(--warm-white);
+      text-decoration: none;
+    }
+    .tag:hover { border-color: var(--accent); color: var(--accent); }
+    .sidebar-stat { text-align: center; padding: 0.5rem 0 0.35rem; }
+    .sidebar-stat .big-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.8rem;
+      font-weight: 700;
+      color: var(--accent);
+      line-height: 1;
+      display: block;
+    }
+    .sidebar-stat .stat-label {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.62rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    hr.sidebar-divider {
+      border: none;
+      border-top: 1px solid var(--rule);
+      margin: 0.85rem 0;
+    }
+
+    /* ── RELATED ── */
+    .related-link {
+      display: block;
+      padding: 0.65rem 0;
+      border-bottom: 1px solid var(--rule);
+      text-decoration: none;
+    }
+    .related-link:last-child { border-bottom: none; }
+    .related-link .rl-label {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.58rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.2rem;
+    }
+    .related-link .rl-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.92rem;
+      font-weight: 600;
+      line-height: 1.3;
+      color: var(--warm-black);
+    }
+    .related-link:hover .rl-title { color: var(--accent); }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 3px double var(--ink);
+      padding: 1.5rem 2rem;
+      text-align: center;
+    }
+    footer p {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    @media (max-width: 860px) {
+      .article-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .sidebar { border-top: 2px solid var(--rule); padding-top: 2rem; }
+    }
+    @media (max-width: 600px) {
+      .data-callout ul { grid-template-columns: 1fr; }
+      .framework-table { font-size: 0.8rem; }
+      h1.article-title { font-size: 1.85rem; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="masthead">
+  <a href="/index.html" class="pub-name">The Analytical Ledger</a>
+  <div class="pub-tagline">Fresh perspectives on AI, data ethics, and the new business logic.</div>
+  <nav>
+    <a href="/index.html">Home</a>
+    <a href="/archive.html">Archive</a>
+    <a href="/tags.html">Tags</a>
+    <a href="/about.html">About</a>
+    <a href="/contact.html">Contact</a>
+  </nav>
+</header>
+
+<div class="page-wrap">
+  <div class="article-grid">
+
+    <article>
+
+      <div class="breadcrumb">
+        <a href="/index.html">Home</a>
+        <span>/</span>
+        <a href="/archive.html">Archive</a>
+        <span>/</span>
+        Twin-2K-500: Personality vs. Prediction
+      </div>
+
+      <header class="article-header">
+        <div class="section-label">Data Analytics</div>
+        <h1 class="article-title">We Built the Most Sophisticated Personality Model We Could. A 3-Variable Linear Model Still Won.</h1>
+        <p class="article-deck">What the Twin-2K-500 dataset taught me about digital twins, financial risk, and why the most interesting results aren't always the ones you planned for.</p>
+        <div class="article-meta">
+          <span><span class="byline-name">Coty Colson</span></span>
+          <span>March 17, 2026</span>
+          <span>The Analytical Ledger</span>
+        </div>
+      </header>
+
+      <div class="hero-wrap">
+        <div class="hero-visual">
+          <div class="hero-bg">
+            <div class="hero-equation">score_riskaversion_recode &nbsp;=&nbsp; 0.1315 &nbsp;−&nbsp; 0.000573(score_trustgame_sender) &nbsp;−&nbsp; 0.01669(income[$75k–$100k]) &nbsp;−&nbsp; 0.01901(age[18–29])</div>
+          </div>
+        </div>
+        <p class="hero-caption">The final 3-variable model equation — the outcome of six models, eighteen predictors, and three independent analytical approaches applied to 2,058 participants.</p>
+      </div>
+
+      <div class="article-body">
+
+        <p>There is a game researchers use to measure financial risk tolerance. It is called the trust game, and it works like this: you are given a sum of money and told you can send any portion of it to a stranger. Whatever you send will be tripled. The stranger then decides how much to return. There is no contract. No enforcement. No guarantee you will see any of it again.</p>
+
+        <p>How much you send reveals something about you — not just your trust in strangers, but your underlying relationship with risk and uncertainty. It is, in behavioral economics terms, one of the most elegant measurement instruments in the field. A single incentivized decision that cuts through self-report bias in a way that asking someone "how risk-tolerant are you?" never could.</p>
+
+        <p>I ran 2,058 of these trust game scores through every model I had. They beat every Big Five personality trait. Every cognitive measure. Every demographic variable. They ended up in the final predictive model alongside two variables you could look up in a phone book: age bracket and income bracket. That is the finding. And it is, I think, the most interesting result of the entire project.</p>
+
+        <h2 class="section-head">The Setup</h2>
+
+        <p>This past quarter in TBANLT 485 (Business Intelligence at UW Tacoma), I applied the full CRISP-DM data mining pipeline to the Twin-2K-500 dataset — a large-scale behavioral and psychometric survey of 2,058 participants across four research waves, with 500+ variables covering everything from Big Five personality scores to incentivized economic games to crystallized intelligence tests.</p>
+
+        <p>The business problem I framed: can a digital twin predict financial risk tolerance well enough to be useful in personalized financial services? Think robo-advisors, insurance pricing, behavioral nudge design. The target variable was <code>score_riskaversion_recode</code> — an implied risk aversion coefficient derived from real lottery choice experiments, not self-reported preference.</p>
+
+        <p>I built 18 predictors across four categories: Big Five personality (5 variables), cognitive ability (5), behavioral economics (4), and demographics (4). Then I ran every model the course framework allows — explanatory MLR, three flavors of stepwise regression, and a Bootstrap Forest. Six models total. The works.</p>
+
+        <h2 class="section-head">What the Models Said</h2>
+
+        <p>The explanatory MLR with all 18 predictors was statistically significant overall (F p=0.0007). Four variables reached individual significance at p &lt; 0.05. Two were behavioral and demographic — the trust game score and age bracket. Two were cognitive — the Cognitive Reflection Test and income bracket.</p>
+
+        <p>Not a single Big Five personality trait.</p>
+
+        <p>That finding alone is worth sitting with. The Big Five is the dominant framework in personality psychology. Openness, conscientiousness, extraversion, agreeableness, neuroticism — these scales have been validated across decades of research and used in everything from hiring algorithms to clinical diagnosis. And in a model specifically designed to predict financial risk behavior, none of them cleared the significance threshold.</p>
+
+        <p>Then came the Bootstrap Forest result, which complicated things further. The forest ranked all five Big Five traits in the top eight variables by importance — Need for Cognition (8.0%), Neuroticism (7.8%), Extraversion (7.5%), Education Level (7.1%), Openness (6.9%). These scores dominated the variable importance rankings. And yet the forest's out-of-bag prediction error (RASE = 0.2950) was <em>worse</em> than the 3-variable linear model's validation RMSE (0.2271).</p>
+
+        <div class="pullquote">
+          "The personality traits are doing something. The forest can detect it. But whatever they are detecting — some nonlinear interaction pattern that linear regression cannot capture — it is not enough to actually improve prediction."
+          <cite>— The Analytical Ledger</cite>
+        </div>
+
+        <p>When stepwise regression ran forward and backward using BIC as the stopping criterion, both methods converged on the same three variables: trust game score, income bracket [$75k–$100k], and age bracket [18–29].</p>
+
+        <div class="data-callout">
+          <h4>Model Results — Six Models, One Answer</h4>
+          <ul>
+            <li><strong>R² = 0.015</strong>Final 3-variable model explains 1.5% of variance in financial risk aversion</li>
+            <li><strong>RMSE = 0.2271</strong>Validation error on the stepwise linear model — better than the Bootstrap Forest's RASE of 0.2950</li>
+            <li><strong>18 → 3</strong>Predictors entering the final model, from an initial candidate set of 18 across four categories</li>
+            <li><strong>0 of 5</strong>Big Five personality traits reaching significance in the explanatory MLR (p &lt; 0.05)</li>
+          </ul>
+        </div>
+
+        <h2 class="section-head">Why 1.5% Is the Finding, Not the Failure</h2>
+
+        <p>There is a reflex in student data projects to treat low R² as something to explain away. To add more variables. To try a different model. To find the angle that makes the results look stronger than they are. I want to push back on that reflex, because I think it leads to worse analysis.</p>
+
+        <p>Three completely independent modeling approaches — explanatory regression, stepwise predictive regression, and a nonlinear ensemble method — all converged on the same answer: this dataset cannot predict financial risk aversion with deployment-ready accuracy. That convergence is informative. It is not a modeling artifact. It is a signal about the underlying data.</p>
+
+        <p>Adding nine more predictors (the Mixed stepwise run selected 12 variables) did not meaningfully improve RMSE and actually worsened BIC — the model complexity penalty went up while prediction barely moved. The signal in this dataset is real but small, and it is concentrated in a handful of behavioral and demographic variables, not the rich psychometric landscape the instrument was designed to map.</p>
+
+        <p>The honest conclusion: R² = 0.015 is what the data actually supports, and reporting it clearly is more valuable than any post-hoc massaging that might obscure it.</p>
+
+        <h2 class="section-head">The Digital Twin Problem</h2>
+
+        <p>The researchers who built the Twin-2K-500 instrument were trying to do something genuinely ambitious — create a behavioral digital twin of each participant. A rich enough multi-wave profile that you could model not just what people do, but who they are. The intuition behind that project is sound. The technology sector has been building digital twins for industrial systems for years — factory equipment, supply chains, climate models. The idea that you could do the same for human financial behavior is commercially compelling.</p>
+
+        <p>But there is a fundamental difference between an industrial digital twin and a human one. Industrial systems are deterministic within tolerances. A digital twin of a turbine can predict failure because the physical laws governing that turbine do not change based on what mood the turbine is in, whether it had a difficult childhood, or what it thinks about its own risk preferences.</p>
+
+        <p>Human behavioral data is irreducibly stochastic. And the Twin-2K-500 results suggest something more specific: the instruments we currently use to measure financial personality are not capturing the right signal. Self-reported personality scales — even validated, well-designed ones — are a layer of abstraction removed from actual financial behavior. The trust game score works precisely because it bypasses that abstraction. It measures what you actually do with real stakes, not what you think you would do in a hypothetical.</p>
+
+        <h2 class="section-head">What a Better Instrument Would Look Like</h2>
+
+        <p>If I were designing a study to predict financial risk tolerance with deployment-ready accuracy, I would build it around three principles that the Twin-2K-500, for structural reasons, could not fully implement.</p>
+
+        <table class="framework-table">
+          <thead>
+            <tr>
+              <th>Principle</th>
+              <th>Current Approach</th>
+              <th>Better Alternative</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Data Type</td>
+              <td>One-time psychometric surveys (Big Five, self-report scales)</td>
+              <td>Longitudinal behavioral data — investment choices, savings behavior, response to market volatility over time</td>
+            </tr>
+            <tr>
+              <td>Measurement Validity</td>
+              <td>Self-reported preferences ("how risk-tolerant are you?")</td>
+              <td>Incentivized measures throughout — instruments that put something at stake and record what people actually do</td>
+            </tr>
+            <tr>
+              <td>Feature Design</td>
+              <td>Demographic proxies (age, income bracket as stand-ins)</td>
+              <td>Domain-specific behavioral features that directly measure the underlying financial experience, not proxies for it</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p>The trust game result — a single incentivized behavioral measure outperforming all five Big Five personality scales combined — is pointing in this direction. The measurement direction is clear. The instrument needs to follow it.</p>
+
+        <h2 class="section-head">The Dashboard</h2>
+
+        <p>I built a four-panel Tableau dashboard to visualize the project findings: the risk aversion score distribution across all 2,058 participants, Bootstrap Forest variable importance rankings by category, the model comparison by RMSE, and the forward stepwise BIC curve showing exactly where complexity stops paying off.</p>
+
+        <p>The BIC curve is the one I find most visually compelling — you can see exactly where the 3-variable model sits at the minimum, and how quickly fit deteriorates as additional predictors are added. Parsimony wins, and the chart makes that argument without words. <a href="https://public.tableau.com/app/profile/coty.colson/viz/twin2k-tableau/Dashboard1" target="_blank" rel="noopener noreferrer">View the interactive dashboard on Tableau Public →</a></p>
+
+        <h2 class="section-head">A Note on the Broader Landscape</h2>
+
+        <p>This project sits at an interesting moment in the financial services industry's relationship with behavioral data. There is genuine commercial momentum behind the idea of using psychometric and behavioral signals to personalize financial products — robo-advisors are increasingly incorporating behavioral finance principles, insurance underwriters are experimenting with behavioral risk factors, and the fintech sector has produced a wave of startups promising to assess financial personality through everything from mobile phone usage patterns to social media behavior.</p>
+
+        <p>The Twin-2K-500 results are a useful calibration against some of that enthusiasm. The signal exists. Behavioral economic measures, demographic anchors, and cognitive measures do predict financial risk tolerance. But the current generation of psychometric instruments — even well-designed, rigorously validated ones — explains a fraction of the variance that would be required for commercial deployment. The gap between academic measurement and operational prediction is wider than the marketing materials for most fintech behavioral products would suggest.</p>
+
+        <p>That does not mean the project is wrong. It means the data needs to catch up to the ambition.</p>
+
+      </div>
+
+      <div class="references">
+        <h4>Notes &amp; Sources</h4>
+        <p>Twin-2K-500 dataset sourced from Toubia et al. (2025). CRISP-DM pipeline implemented in JMP Student Edition for TBANLT 485 (Business Intelligence), University of Washington Tacoma. All analysis and interpretations reflect independent student judgment.</p>
+        <p>Full project artifacts available at <a href="https://github.com/cotycolson-sudo/twin2k-business-intelligence" target="_blank" rel="noopener noreferrer">github.com/cotycolson-sudo/twin2k-business-intelligence</a>.</p>
+      </div>
+
+    </article>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+      <div class="sidebar-block">
+        <h4>About This Article</h4>
+        <p>Developed as the capstone project for TBANLT 485: Business Intelligence at the University of Washington Tacoma. Adapted and expanded for The Analytical Ledger.</p>
+      </div>
+
+      <div class="sidebar-block">
+        <h4>Key Concept</h4>
+        <p><strong>The Trust Game</strong> — an incentivized behavioral economics instrument in which participants allocate real money to a stranger. Because the stakes are real, the decision bypasses self-report bias and captures actual risk tolerance rather than stated preference.</p>
+        <p>In this dataset, a single trust game score outperformed all five Big Five personality scales combined.</p>
+      </div>
+
+      <div class="sidebar-block">
+        <h4>Dataset at a Glance</h4>
+        <div class="sidebar-stat">
+          <span class="big-num">2,058</span>
+          <span class="stat-label">Participants</span>
+        </div>
+        <hr class="sidebar-divider" />
+        <p style="font-family:'DM Sans',sans-serif;font-size:0.78rem;color:var(--muted);line-height:1.6;">500+ variables across 4 research waves — Big Five personality, cognitive ability, incentivized economic games, demographics.</p>
+      </div>
+
+      <div class="sidebar-block">
+        <h4>Model Comparison</h4>
+        <div class="sidebar-stat">
+          <span class="big-num">6</span>
+          <span class="stat-label">Models Tested</span>
+        </div>
+        <hr class="sidebar-divider" />
+        <p style="font-family:'DM Sans',sans-serif;font-size:0.78rem;color:var(--muted);line-height:1.6;">Explanatory MLR · Forward Stepwise · Backward Stepwise · Mixed Stepwise · Bootstrap Forest — all converging on the same parsimonious answer.</p>
+      </div>
+
+      <div class="sidebar-block">
+        <h4>Topics</h4>
+        <div class="tag-list">
+          <a href="/tags.html#data-analytics" class="tag">Data Analytics</a>
+          <a href="/tags.html#business-intelligence" class="tag">Business Intelligence</a>
+          <a href="/tags.html#behavioral-finance" class="tag">Behavioral Finance</a>
+          <a href="/tags.html#crisp-dm" class="tag">CRISP-DM</a>
+          <a href="/tags.html#digital-twins" class="tag">Digital Twins</a>
+          <a href="/tags.html#machine-learning" class="tag">Machine Learning</a>
+          <a href="/tags.html#financial-services" class="tag">Financial Services</a>
+          <a href="/tags.html#uw-tacoma" class="tag">UW Tacoma</a>
+        </div>
+      </div>
+
+      <div class="sidebar-block">
+        <h4>Related Articles</h4>
+        <a href="/articles/china-ai-marketing.html" class="related-link">
+          <div class="rl-label">AI &amp; Technology</div>
+          <div class="rl-title">China's Precision Marketing Revolution</div>
+        </a>
+        <a href="/articles/lunar-new-year" class="related-link">
+          <div class="rl-label">Data Analytics</div>
+          <div class="rl-title">From Invisible to Essential: The Rise of Lunar New Year in America</div>
+        </a>
+      </div>
+
+    </aside>
+
+  </div>
+</div>
+
+<footer>
+  <p>© 2026 The Analytical Ledger. All rights reserved.</p>
+</footer>
+
+</body>
+</html>

@@ -191,6 +191,28 @@
             font-weight: 600;
         }
 
+        .hero-wrap { margin-bottom: 2rem; }
+        .hero-visual {
+            width: 100%;
+            max-height: 400px;
+            overflow: hidden;
+            border-radius: 2px;
+        }
+        .hero-visual img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+        }
+        .hero-caption {
+            font-size: 0.82em;
+            color: #999;
+            font-style: italic;
+            margin-top: 8px;
+            text-align: center;
+        }
+
         .dashboard-cta {
             display: block;
             margin: 40px 0;
@@ -353,6 +375,13 @@
 
     <main>
         <a href="../index.html" class="back-link">Back to all articles</a>
+
+        <div class="hero-wrap">
+            <div class="hero-visual">
+                <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80" alt="Analytics dashboard with data visualizations on a laptop screen" />
+            </div>
+            <p class="hero-caption">Photo by <a href="https://unsplash.com/@lukechesser" style="color:#999;">Luke Chesser</a> on <a href="https://unsplash.com" style="color:#999;">Unsplash</a></p>
+        </div>
 
         <article>
             <p>

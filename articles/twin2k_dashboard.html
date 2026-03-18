@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Twin2K — Business Intelligence Dashboard</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root {
+    --bg: #0f1117;
+    --surface: #1a1d27;
+    --surface2: #22263a;
+    --border: #2e3250;
+    --accent: #6c63ff;
+    --accent2: #ff6b9d;
+    --accent3: #00d4aa;
+    --accent4: #ffb347;
+    --text: #e8eaf6;
+    --muted: #8890b5;
+    --kpi-bg: #1e2235;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; min-height: 100vh; }
+
+  /* Header */
+  .header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 18px 32px; display: flex; align-items: center; justify-content: space-between; }
+  .header h1 { font-size: 1.4rem; font-weight: 700; letter-spacing: 0.5px; }
+  .header h1 span { color: var(--accent); }
+  .header-meta { font-size: 0.8rem; color: var(--muted); }
+
+  /* KPIs */
+  .kpi-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; padding: 24px 32px 0; }
+  .kpi { background: var(--kpi-bg); border: 1px solid var(--border); border-radius: 10px; padding: 16px 20px; }
+  .kpi-label { font-size: 0.7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+  .kpi-value { font-size: 1.7rem; font-weight: 700; }
+  .kpi-value.accent { color: var(--accent); }
+  .kpi-value.accent2 { color: var(--accent2); }
+  .kpi-value.accent3 { color: var(--accent3); }
+  .kpi-value.accent4 { color: var(--accent4); }
+  .kpi-sub { font-size: 0.72rem; color: var(--muted); margin-top: 4px; }
+
+  /* Tabs */
+  .tabs { display: flex; gap: 4px; padding: 20px 32px 0; border-bottom: 1px solid var(--border); }
+  .tab { padding: 10px 20px; border-radius: 8px 8px 0 0; font-size: 0.85rem; font-weight: 500; cursor: pointer; color: var(--muted); background: transparent; border: none; border-bottom: 3px solid transparent; transition: all 0.2s; }
+  .tab:hover { color: var(--text); background: var(--surface2); }
+  .tab.active { color: var(--accent); border-bottom-color: var(--accent); background: var(--surface); }
+
+  /* Content */
+  .tab-content { display: none; padding: 24px 32px; }
+  .tab-content.active { display: block; }
+
+  /* Grid layouts */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+  .grid-2-1 { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; }
+  .span-2 { grid-column: span 2; }
+  .span-3 { grid-column: span 3; }
+
+  /* Cards */
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+  .card-title { font-size: 0.8rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; }
+  .card-title select { background: var(--surface2); border: 1px solid var(--border); color: var(--text); border-radius: 6px; padding: 3px 8px; font-size: 0.75rem; cursor: pointer; }
+  .chart-wrap { position: relative; }
+  .chart-wrap.h200 { height: 200px; }
+  .chart-wrap.h260 { height: 260px; }
+  .chart-wrap.h300 { height: 300px; }
+  .chart-wrap.h340 { height: 340px; }
+  .chart-wrap.h380 { height: 380px; }
+
+  /* Score bar */
+  .score-bar-list { display: flex; flex-direction: column; gap: 10px; }
+  .score-bar-item { display: flex; align-items: center; gap: 10px; font-size: 0.82rem; }
+  .score-bar-label { width: 140px; color: var(--muted); flex-shrink: 0; text-align: right; font-size: 0.75rem; }
+  .score-bar-track { flex: 1; height: 8px; background: var(--surface2); border-radius: 4px; overflow: hidden; }
+  .score-bar-fill { height: 100%; border-radius: 4px; transition: width 0.6s ease; }
+  .score-bar-val { width: 36px; font-size: 0.75rem; color: var(--text); text-align: right; }
+
+  /* Legend */
+  .legend { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 12px; }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 0.75rem; color: var(--muted); }
+  .legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+
+  /* Insight pill */
+  .insight { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px; font-size: 0.78rem; color: var(--muted); margin-top: 12px; line-height: 1.5; }
+  .insight strong { color: var(--text); }
+
+  @media (max-width: 900px) {
+    .grid-2, .grid-3, .grid-2-1 { grid-template-columns: 1fr; }
+    .span-2, .span-3 { grid-column: span 1; }
+    .kpi-row { grid-template-columns: repeat(2, 1fr); }
+    .tabs { overflow-x: auto; }
+    .header { flex-direction: column; align-items: flex-start; gap: 4px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Twin<span>2K</span> — Business Intelligence Dashboard</h1>
+  <div class="header-meta">n = 2,058 respondents &nbsp;·&nbsp; U.S. National Survey &nbsp;·&nbsp; Multi-wave</div>
+</div>
+
+<!-- KPI Row -->
+<div class="kpi-row">
+  <div class="kpi">
+    <div class="kpi-label">Total Respondents</div>
+    <div class="kpi-value accent">2,058</div>
+    <div class="kpi-sub">U.S. adult population sample</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-label">Avg. Agreeableness</div>
+    <div class="kpi-value accent3">3.90</div>
+    <div class="kpi-sub">Out of 5.0 (Big Five)</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-label">Avg. Overconfidence</div>
+    <div class="kpi-value accent4">12.2</div>
+    <div class="kpi-sub">Points above actual score</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-label">Avg. Anxiety Score</div>
+    <div class="kpi-value accent2">9.8</div>
+    <div class="kpi-sub">GAD-7 style scale (0–63)</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-label">Avg. Financial Literacy</div>
+    <div class="kpi-value accent">4.99</div>
+    <div class="kpi-sub">Out of 7.0</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-label">Avg. Numeracy</div>
+    <div class="kpi-value accent3">5.43</div>
+    <div class="kpi-sub">Out of 8.0</div>
+  </div>
+</div>
+
+<!-- Tabs -->
+<div class="tabs">
+  <button class="tab active" onclick="showTab('demographics')">Demographics</button>
+  <button class="tab" onclick="showTab('personality')">Personality</button>
+  <button class="tab" onclick="showTab('cognition')">Cognition</button>
+  <button class="tab" onclick="showTab('wellbeing')">Wellbeing</button>
+  <button class="tab" onclick="showTab('behavioral')">Behavioral Econ</button>
+</div>
+
+<!-- TAB: Demographics -->
+<div id="tab-demographics" class="tab-content active">
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">Geographic Region</div>
+      <div class="chart-wrap h260"><canvas id="chartRegion"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Gender</div>
+      <div class="chart-wrap h260"><canvas id="chartGender"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Age Distribution</div>
+      <div class="chart-wrap h260"><canvas id="chartAge"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Race / Ethnicity</div>
+      <div class="chart-wrap h260"><canvas id="chartRace"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Education Level</div>
+      <div class="chart-wrap h260"><canvas id="chartEducation"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Household Income</div>
+      <div class="chart-wrap h260"><canvas id="chartIncome"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Political Affiliation</div>
+      <div class="chart-wrap h260"><canvas id="chartPoliticalAff"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Political Views (Ideology)</div>
+      <div class="chart-wrap h260"><canvas id="chartPoliticalViews"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Employment Status</div>
+      <div class="chart-wrap h260"><canvas id="chartEmployment"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Religious Affiliation</div>
+      <div class="chart-wrap h260"><canvas id="chartReligion"></canvas></div>
+    </div>
+  </div>
+</div>
+
+<!-- TAB: Personality -->
+<div id="tab-personality" class="tab-content">
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">
+        Big Five Profile
+        <select id="big5GroupSelect" onchange="updateBig5()">
+          <option value="gender">By Gender</option>
+          <option value="politics">By Political Affiliation</option>
+          <option value="age">By Age Group</option>
+        </select>
+      </div>
+      <div class="chart-wrap h340"><canvas id="chartBig5Radar"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Score Distributions</div>
+      <div class="chart-wrap h340"><canvas id="chartPersonalityDist"></canvas></div>
+      <div class="legend" id="distLegend"></div>
+    </div>
+    <div class="card span-2">
+      <div class="card-title">
+        Trait Averages by Group
+        <select id="traitGroupSelect" onchange="updateTraitBar()">
+          <option value="gender">Gender</option>
+          <option value="politics">Political Affiliation</option>
+          <option value="age">Age Group</option>
+        </select>
+      </div>
+      <div class="chart-wrap h300"><canvas id="chartTraitBar"></canvas></div>
+    </div>
+  </div>
+  <div class="insight">
+    <strong>Notable patterns:</strong> Females score higher on Agreeableness (3.97 vs 3.83) and Neuroticism (2.84 vs 2.59).
+    Democrats score higher on Openness; Republicans score higher on Conscientiousness (wave 1 & 2).
+    Need for Cognition peaks in the 30–49 age group.
+  </div>
+</div>
+
+<!-- TAB: Cognition -->
+<div id="tab-cognition" class="tab-content">
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">
+        Cognitive Scores by Education
+      </div>
+      <div class="chart-wrap h340"><canvas id="chartCogEduc"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Cognitive Scores by Income</div>
+      <div class="chart-wrap h340"><canvas id="chartCogIncome"></canvas></div>
+    </div>
+    <div class="card span-2">
+      <div class="card-title">Score Breakdown — Fluid, Crystallized, Financial Literacy, Numeracy</div>
+      <div class="score-bar-list" id="cogScoreBars"></div>
+    </div>
+  </div>
+  <div class="insight">
+    <strong>Key finding:</strong> Crystallized intelligence and financial literacy rise consistently with education and income.
+    Fluid intelligence shows a smaller gradient, consistent with the distinction between "learned" vs. "native" cognitive ability.
+  </div>
+</div>
+
+<!-- TAB: Wellbeing -->
+<div id="tab-wellbeing" class="tab-content">
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">Anxiety &amp; Depression by Gender</div>
+      <div class="chart-wrap h280"><canvas id="chartWellGender"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Anxiety &amp; Depression by Age</div>
+      <div class="chart-wrap h280"><canvas id="chartWellAge"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Anxiety &amp; Depression by Income</div>
+      <div class="chart-wrap h280"><canvas id="chartWellIncome"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Anxiety &amp; Depression by Political Views</div>
+      <div class="chart-wrap h280"><canvas id="chartWellPolitics"></canvas></div>
+    </div>
+  </div>
+  <div class="insight">
+    <strong>Notable patterns:</strong> Females report higher anxiety and depression scores on average.
+    The 18–29 cohort shows elevated scores relative to older groups.
+    Lower income brackets show notably higher anxiety and depression.
+    Those identifying as Very Liberal report the highest wellbeing concerns across political views.
+  </div>
+</div>
+
+<!-- TAB: Behavioral Econ -->
+<div id="tab-behavioral" class="tab-content">
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">Behavioral Scores by Gender</div>
+      <div class="chart-wrap h300"><canvas id="chartBEGender"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Behavioral Scores by Political Affiliation</div>
+      <div class="chart-wrap h300"><canvas id="chartBEPolitics"></canvas></div>
+    </div>
+    <div class="card span-2">
+      <div class="card-title">Behavioral Scores by Age Group</div>
+      <div class="chart-wrap h300"><canvas id="chartBEAge"></canvas></div>
+    </div>
+  </div>
+  <div class="insight">
+    <strong>Highlights:</strong> Overconfidence is present across all groups (positive scores throughout).
+    Republicans show higher social desirability scores. Maximization tendency is relatively stable across groups.
+    Older respondents (65+) show lower overconfidence and higher risk aversion.
+  </div>
+</div>
+
+<script>
+// ============================================================
+// DATA
+// ============================================================
+const D = {"total":2058,"demographics":{"region":{"South":834,"Midwest":372,"West":494,"Northeast":342,"Pacific":16},"gender":{"Male":1014,"Female":1044},"age":{"18-29":388,"30-49":735,"50-64":658,"65+":277},"education":{"Some college, no degree":468,"College graduate/some postgrad":735,"Postgraduate":313,"Associate's degree":253,"High school graduate":272,"Less than high school":17},"race":{"White":1361,"Black":251,"Asian":140,"Hispanic":194,"Other":112},"income":{"$100,000 or more":552,"$50,000-$75,000":411,"$75,000-$100,000":316,"Less than $30,000":367,"$30,000-$50,000":412},"political_affiliation":{"Republican":540,"Democrat":847,"Independent":609,"Something else":62},"political_views":{"Conservative":430,"Liberal":564,"Moderate":582,"Very liberal":345,"Very conservative":137},"employment":{"Student":78,"Unemployed":249,"Full-time employment":871,"Self-employed":280,"Part-time employment":269,"Retired":245,"Home-maker":66},"religion":{"Protestant":510,"Nothing in particular":327,"Other":215,"Buddhist":25,"Agnostic":311,"Roman Catholic":358,"Jewish":39,"Atheist":216,"Muslim":18,"Hindu":7,"Mormon":15,"Orthodox":17},"marital_status":{"Never been married":714,"Married":813,"Separated":31,"Living with a partner":212,"Widowed":70,"Divorced":218}},"big5_labels":["Extraversion","Agreeableness","Openness","Neuroticism","Need for Cognition"],"big5_by_gender":{"Male":[2.836,3.828,3.754,2.587,3.46],"Female":[2.91,3.974,3.746,2.839,3.336]},"big5_by_politics":{"Republican":[2.77,3.793,3.559,2.589,3.373],"Democrat":[2.917,3.956,3.897,2.793,3.508],"Independent":[2.882,3.892,3.757,2.703,3.364],"Something else":[2.911,3.84,3.758,2.792,3.376]},"big5_by_age":{"18-29":[3.109,3.906,3.759,2.895,3.315],"30-49":[2.903,3.9,3.793,2.77,3.431],"50-64":[2.74,3.882,3.722,2.638,3.425],"65+":[2.706,3.893,3.713,2.456,3.399]},"cog_labels":["Fluid Intelligence","Crystallized Intelligence","Financial Literacy","Numeracy"],"cog_by_education":{"Some college, no degree":[1.477,5.859,4.726,5.137],"College graduate/some postgrad":[1.705,6.451,5.3,5.63],"Postgraduate":[1.871,7.102,5.803,6.01],"Associate's degree":[1.501,5.732,4.664,5.154],"High school graduate":[1.342,5.484,4.407,4.669],"Less than high school":[1.118,4.647,3.882,3.706]},"cog_by_income":{"$100,000 or more":[1.813,6.823,5.59,6.019],"$50,000-$75,000":[1.6,6.017,4.917,5.376],"$75,000-$100,000":[1.709,6.348,5.255,5.742],"Less than $30,000":[1.355,5.443,4.337,4.662],"$30,000-$50,000":[1.468,5.649,4.596,4.956]},"wellbeing_by_gender":{"Male":[8.236,9.637],"Female":[11.388,12.878]},"wellbeing_by_age":{"18-29":[13.007,15.392],"30-49":[11.028,12.526],"50-64":[8.521,9.433],"65+":[6.605,7.275]},"wellbeing_by_income":{"$100,000 or more":[8.004,9.19],"$50,000-$75,000":[10.056,11.185],"$75,000-$100,000":[8.869,9.835],"Less than $30,000":[13.489,15.435],"$30,000-$50,000":[10.718,12.052]},"wellbeing_by_politics":{"Conservative":[8.221,8.975],"Liberal":[10.705,12.291],"Moderate":[9.294,10.427],"Very liberal":[13.185,15.487],"Very conservative":[8.708,10.066]},"be_labels":["Overconfidence","Risk Aversion","Social Desirability","Maximization"],"be_by_gender":{"Male":[13.418,0.128,5.633,3.158],"Female":[11.006,0.116,5.793,3.183]},"be_by_politics":{"Republican":[12.864,0.116,6.049,3.252],"Democrat":[11.737,0.123,5.592,3.151],"Independent":[12.427,0.125,5.668,3.135],"Something else":[12.581,0.104,5.597,3.226]},"be_by_age":{"18-29":[9.894,0.118,5.549,3.302],"30-49":[12.714,0.12,5.628,3.205],"50-64":[13.095,0.124,5.851,3.139],"65+":[12.888,0.115,5.794,3.007]},"overall_avgs":{"score_extraversion":2.874,"score_agreeableness":3.902,"score_openness":3.75,"score_neuroticism":2.714,"score_needforcognition":3.396,"score_fluid":1.601,"score_crystallized":6.092,"score_finliteracy":4.988,"score_numeracy":5.432,"score_anxiety":9.841,"score_depression":11.286,"score_riskaversion":0.122,"score_lossaversion":0.972,"score_overconfidence":12.178,"score_socialdesirability":5.714,"score_maximization":3.171},"distributions":{"extraversion":{"labels":["1.0-1.4","1.4-1.8","1.8-2.2","2.2-2.6","2.6-3.0","3.0-3.4","3.4-3.8","3.8-4.2","4.2-4.6","4.6-5.0"],"counts":[100,148,244,276,323,306,306,205,119,31]},"agreeableness":{"labels":["1.2-1.6","1.6-2.0","2.0-2.4","2.4-2.7","2.7-3.1","3.1-3.5","3.5-3.9","3.9-4.2","4.2-4.6","4.6-5.0"],"counts":[2,10,31,57,120,194,318,380,441,505]},"openness":{"labels":["1.0-1.4","1.4-1.8","1.8-2.2","2.2-2.6","2.6-3.0","3.0-3.4","3.4-3.8","3.8-4.2","4.2-4.6","4.6-5.0"],"counts":[13,25,62,116,203,279,388,395,361,216]},"neuroticism":{"labels":["1.0-1.4","1.4-1.8","1.8-2.2","2.2-2.6","2.6-3.0","3.0-3.4","3.4-3.8","3.8-4.2","4.2-4.6","4.6-5.0"],"counts":[126,190,282,337,339,291,217,142,87,47]},"anxiety":{"labels":["0.0-4.9","4.9-9.8","9.8-14.7","14.7-19.7","19.7-24.6","24.6-29.5","29.5-34.4","34.4-39.4","39.4-44.3","44.3-49.2","49.2-54.1","54.1-59.0"],"counts":[741,547,291,197,116,76,40,24,13,4,4,5]},"depression":{"labels":["0.0-4.6","4.6-9.2","9.2-13.8","13.8-18.3","18.3-22.9","22.9-27.5","27.5-32.1","32.1-36.7","36.7-41.3","41.3-45.8","45.8-50.4","50.4-55.0"],"counts":[579,469,310,233,158,113,78,51,31,17,9,10]}},"edu_order":["Less than high school","High school graduate","Some college, no degree","Associate's degree","College graduate/some postgrad","Postgraduate"],"income_order":["Less than $30,000","$30,000-$50,000","$50,000-$75,000","$75,000-$100,000","$100,000 or more"],"age_order":["18-29","30-49","50-64","65+"],"politics_order":["Very liberal","Liberal","Moderate","Conservative","Very conservative"]};
+
+// ============================================================
+// HELPERS
+// ============================================================
+const PALETTE = [
+  '#6c63ff','#ff6b9d','#00d4aa','#ffb347','#56cfe1','#c77dff','#ff9f43','#2ecc71','#e74c3c','#3498db','#f39c12','#9b59b6'
+];
+const ALPHA = (hex, a) => hex + Math.round(a*255).toString(16).padStart(2,'0');
+
+function makeChart(id, config) {
+  const ctx = document.getElementById(id);
+  if (!ctx) return null;
+  return new Chart(ctx, config);
+}
+
+function orderedKeys(obj, order) {
+  if (order) return order.filter(k => k in obj);
+  return Object.keys(obj);
+}
+
+// ============================================================
+// DEMOGRAPHICS
+// ============================================================
+function buildDemographics() {
+  const donut = (id, data, label) => {
+    const keys = Object.keys(data);
+    makeChart(id, {
+      type: 'doughnut',
+      data: {
+        labels: keys,
+        datasets: [{ data: keys.map(k => data[k]), backgroundColor: PALETTE.slice(0, keys.length), borderColor: '#0f1117', borderWidth: 2 }]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: {
+          legend: { position: 'right', labels: { color: '#8890b5', font: { size: 11 }, boxWidth: 12, padding: 10 } },
+          tooltip: { callbacks: { label: ctx => ` ${ctx.label}: ${ctx.raw} (${(ctx.raw/D.total*100).toFixed(1)}%)` } }
+        }
+      }
+    });
+  };
+
+  const hbar = (id, data, order, color) => {
+    const keys = orderedKeys(data, order);
+    makeChart(id, {
+      type: 'bar',
+      data: {
+        labels: keys,
+        datasets: [{ data: keys.map(k => data[k]), backgroundColor: color || ALPHA('#6c63ff', 0.8), borderRadius: 5, borderSkipped: false }]
+      },
+      options: {
+        indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ` ${ctx.raw} (${(ctx.raw/D.total*100).toFixed(1)}%)` } } },
+        scales: {
+          x: { grid: { color: '#2e3250' }, ticks: { color: '#8890b5', font: { size: 11 } } },
+          y: { grid: { display: false }, ticks: { color: '#c0c8e8', font: { size: 11 } } }
+        }
+      }
+    });
+  };
+
+  donut('chartRegion', D.demographics.region);
+  donut('chartGender', D.demographics.gender);
+
+  const ageOrder = ['18-29','30-49','50-64','65+'];
+  hbar('chartAge', D.demographics.age, ageOrder, ALPHA('#00d4aa', 0.8));
+
+  donut('chartRace', D.demographics.race);
+
+  const eduOrder = D.edu_order;
+  hbar('chartEducation', D.demographics.education, eduOrder, ALPHA('#ffb347', 0.8));
+
+  const incOrder = D.income_order;
+  hbar('chartIncome', D.demographics.income, incOrder, ALPHA('#ff6b9d', 0.8));
+
+  donut('chartPoliticalAff', D.demographics.political_affiliation);
+
+  const pv = D.politics_order;
+  hbar('chartPoliticalViews', D.demographics.political_views, pv, ALPHA('#c77dff', 0.8));
+
+  hbar('chartEmployment', D.demographics.employment, null, ALPHA('#56cfe1', 0.8));
+
+  hbar('chartReligion', D.demographics.religion, null, ALPHA('#6c63ff', 0.75));
+}
+
+// ============================================================
+// PERSONALITY
+// ============================================================
+let big5Chart = null, traitBarChart = null;
+
+function getBig5Data(groupType) {
+  let src, order;
+  if (groupType === 'gender') { src = D.big5_by_gender; order = ['Male', 'Female']; }
+  else if (groupType === 'politics') { src = D.big5_by_politics; order = ['Republican','Democrat','Independent','Something else']; }
+  else { src = D.big5_by_age; order = D.age_order; }
+  return { src, order };
+}
+
+function buildBig5Radar(groupType = 'gender') {
+  const { src, order } = getBig5Data(groupType);
+  const keys = order.filter(k => k in src);
+  const datasets = keys.map((k, i) => ({
+    label: k,
+    data: src[k],
+    borderColor: PALETTE[i],
+    backgroundColor: ALPHA(PALETTE[i], 0.1),
+    pointBackgroundColor: PALETTE[i],
+    borderWidth: 2,
+    pointRadius: 4
+  }));
+  return {
+    type: 'radar',
+    data: { labels: D.big5_labels, datasets },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      scales: {
+        r: {
+          min: 1, max: 5,
+          grid: { color: '#2e3250' },
+          angleLines: { color: '#2e3250' },
+          ticks: { color: '#8890b5', backdropColor: 'transparent', font: { size: 10 }, stepSize: 1 },
+          pointLabels: { color: '#c0c8e8', font: { size: 11 } }
+        }
+      },
+      plugins: { legend: { labels: { color: '#8890b5', font: { size: 11 }, boxWidth: 12 } } }
+    }
+  };
+}
+
+function updateBig5() {
+  const g = document.getElementById('big5GroupSelect').value;
+  if (big5Chart) big5Chart.destroy();
+  big5Chart = makeChart('chartBig5Radar', buildBig5Radar(g));
+}
+
+function buildTraitBar(groupType = 'gender') {
+  const { src, order } = getBig5Data(groupType);
+  const keys = order.filter(k => k in src);
+  const datasets = D.big5_labels.map((label, i) => ({
+    label,
+    data: keys.map(k => src[k][i]),
+    backgroundColor: ALPHA(PALETTE[i], 0.8),
+    borderRadius: 4,
+    borderSkipped: false
+  }));
+  return {
+    type: 'bar',
+    data: { labels: keys, datasets },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { labels: { color: '#8890b5', font: { size: 11 }, boxWidth: 12 } } },
+      scales: {
+        x: { grid: { display: false }, ticks: { color: '#c0c8e8' } },
+        y: { min: 1, max: 5, grid: { color: '#2e3250' }, ticks: { color: '#8890b5' } }
+      }
+    }
+  };
+}
+
+function updateTraitBar() {
+  const g = document.getElementById('traitGroupSelect').value;
+  if (traitBarChart) traitBarChart.destroy();
+  traitBarChart = makeChart('chartTraitBar', buildTraitBar(g));
+}
+
+function buildPersonalityDist() {
+  const traits = ['extraversion','agreeableness','openness','neuroticism'];
+  const labels_set = D.distributions['extraversion'].labels;
+  const colors = [PALETTE[0], PALETTE[2], PALETTE[3], PALETTE[1]];
+  const names = ['Extraversion','Agreeableness','Openness','Neuroticism'];
+  const datasets = traits.map((t, i) => ({
+    label: names[i],
+    data: D.distributions[t].counts,
+    borderColor: PALETTE[i],
+    backgroundColor: ALPHA(PALETTE[i], 0.12),
+    tension: 0.4, fill: true, borderWidth: 2, pointRadius: 0
+  }));
+  makeChart('chartPersonalityDist', {
+    type: 'line',
+    data: { labels: labels_set, datasets },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { labels: { color: '#8890b5', font: { size: 11 }, boxWidth: 12 } } },
+      scales: {
+        x: { grid: { color: '#2e3250' }, ticks: { color: '#8890b5', font: { size: 10 }, maxRotation: 45 } },
+        y: { grid: { color: '#2e3250' }, ticks: { color: '#8890b5' } }
+      }
+    }
+  });
+}
+
+function buildPersonality() {
+  big5Chart = makeChart('chartBig5Radar', buildBig5Radar('gender'));
+  buildPersonalityDist();
+  traitBarChart = makeChart('chartTraitBar', buildTraitBar('gender'));
+}
+
+// ============================================================
+// COGNITION
+// ============================================================
+function buildCognition() {
+  const groupedBar = (id, src, order, normalize) => {
+    const keys = orderedKeys(src, order);
+    const datasets = D.cog_labels.map((label, i) => {
+      const maxVal = normalize ? normalize[i] : 1;
+      return {
+        label,
+        data: keys.map(k => src[k] ? +(src[k][i]).toFixed(2) : 0),
+        backgroundColor: ALPHA(PALETTE[i], 0.8),
+        borderRadius: 4,
+        borderSkipped: false
+      };
+    });
+    makeChart(id, {
+      type: 'bar',
+      data: { labels: keys, datasets },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { labels: { color: '#8890b5', font: { size: 11 }, boxWidth: 12 } } },
+        scales: {
+          x: { grid: { display: false }, ticks: { color: '#c0c8e8', font: { size: 10 }, maxRotation: 30 } },
+          y: { grid: { color: '#2e3250' }, ticks: { color: '#8890b5' } }
+        }
+      }
+    });
+  };
+
+  groupedBar('chartCogEduc', D.cog_by_education, D.edu_order);
+  groupedBar('chartCogIncome', D.cog_by_income, D.income_order);
+
+  // Score bars
+  const maxes = [4, 9, 7, 8];
+  const overall = [D.overall_avgs.score_fluid, D.overall_avgs.score_crystallized, D.overall_avgs.score_finliteracy, D.overall_avgs.score_numeracy];
+  const container = document.getElementById('cogScoreBars');
+  D.cog_labels.forEach((label, i) => {
+    const pct = (overall[i] / maxes[i] * 100).toFixed(1);
+    container.innerHTML += `
+      <div class="score-bar-item">
+        <div class="score-bar-label">${label}</div>
+        <div class="score-bar-track"><div class="score-bar-fill" style="width:${pct}%;background:${PALETTE[i]}"></div></div>
+        <div class="score-bar-val">${overall[i].toFixed(2)} / ${maxes[i]}</div>
+      </div>`;
+  });
+}
+
+// ============================================================
+// WELLBEING
+// ============================================================
+function wellGroupedBar(id, src, order, yLabel) {
+  const keys = orderedKeys(src, order);
+  const labels = ['Anxiety','Depression'];
+  const colors = [PALETTE[1], PALETTE[0]];
+  const datasets = labels.map((label, i) => ({
+    label,
+    data: keys.map(k => src[k] ? +src[k][i].toFixed(2) : 0),
+    backgroundColor: ALPHA(colors[i], 0.8),
+    borderRadius: 5,
+    borderSkipped: false
+  }));
+  makeChart(id, {
+    type: 'bar',
+    data: { labels: keys, datasets },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { labels: { color: '#8890b5', font: { size: 11 }, boxWidth: 12 } } },
+      scales: {
+        x: { grid: { display: false }, ticks: { color: '#c0c8e8', font: { size: 11 } } },
+        y: { grid: { color: '#2e3250' }, ticks: { color: '#8890b5' }, title: { display: true, text: yLabel || 'Score', color: '#8890b5' } }
+      }
+    }
+  });
+}
+
+function buildWellbeing() {
+  wellGroupedBar('chartWellGender', D.wellbeing_by_gender, ['Male','Female']);
+  wellGroupedBar('chartWellAge', D.wellbeing_by_age, D.age_order);
+  wellGroupedBar('chartWellIncome', D.wellbeing_by_income, D.income_order);
+  wellGroupedBar('chartWellPolitics', D.wellbeing_by_politics, D.politics_order);
+}
+
+// ============================================================
+// BEHAVIORAL ECON
+// ============================================================
+function buildBE() {
+  const beBar = (id, src, order) => {
+    const keys = orderedKeys(src, order);
+    // Normalize: overconfidence on separate axis. Use 4 separate series.
+    // For cleaner display, use grouped bar for overconfidence, social desirability, maximization only
+    // and a separate indicator for risk aversion
+    const displayLabels = ['Overconfidence', 'Social Desirability', 'Maximization'];
+    const displayIdx = [0, 2, 3];
+    const colors = [PALETTE[3], PALETTE[2], PALETTE[5]];
+    const datasets = displayIdx.map((di, i) => ({
+      label: D.be_labels[di],
+      data: keys.map(k => src[k] ? +src[k][di].toFixed(3) : 0),
+      backgroundColor: ALPHA(colors[i], 0.8),
+      borderRadius: 4,
+      borderSkipped: false
+    }));
+    makeChart(id, {
+      type: 'bar',
+      data: { labels: keys, datasets },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { labels: { color: '#8890b5', font: { size: 11 }, boxWidth: 12 } } },
+        scales: {
+          x: { grid: { display: false }, ticks: { color: '#c0c8e8', font: { size: 11 } } },
+          y: { grid: { color: '#2e3250' }, ticks: { color: '#8890b5' } }
+        }
+      }
+    });
+  };
+  beBar('chartBEGender', D.be_by_gender, ['Male','Female']);
+  beBar('chartBEPolitics', D.be_by_politics, ['Republican','Democrat','Independent','Something else']);
+  beBar('chartBEAge', D.be_by_age, D.age_order);
+}
+
+// ============================================================
+// TAB SWITCHING
+// ============================================================
+const builtTabs = new Set(['demographics']);
+
+function showTab(name) {
+  document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  event.currentTarget.classList.add('active');
+
+  if (!builtTabs.has(name)) {
+    builtTabs.add(name);
+    if (name === 'personality') buildPersonality();
+    if (name === 'cognition') buildCognition();
+    if (name === 'wellbeing') buildWellbeing();
+    if (name === 'behavioral') buildBE();
+  }
+}
+
+// ============================================================
+// INIT
+// ============================================================
+window.addEventListener('load', buildDemographics);
+</script>
+</body>
+</html>
